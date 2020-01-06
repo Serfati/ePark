@@ -32,7 +32,7 @@ public class ChildController {
     }
 
     private void createBracelet(Child child) {
-        eBand bracelet = new eBand();
+        eBracelet bracelet = new eBracelet();
         child.setEBand(bracelet);
     }
 

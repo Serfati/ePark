@@ -3,7 +3,7 @@ public class GuardianController {
     private ChildController cController;
     private Guardian guardian;
     private Account account;
-    private CCCompany ccCompany;
+    private CreditCardCom ccCompany;
 
     public GuardianController() {
     }
@@ -17,7 +17,7 @@ public class GuardianController {
     }
 
     public void createAccount(int ccNumber, int bal, String comName) {
-        CCCompany c = new CCCompany(comName);
+        CreditCardCom c = new CreditCardCom(comName);
         this.account = new Account(ccNumber, bal, c, guardian);
         this.guardian.setAccount(this.account);
     }
@@ -39,7 +39,7 @@ public class GuardianController {
         return account;
     }
 
-    public CCCompany getCcCompany() {
+    public CreditCardCom getCcCompany() {
         return ccCompany;
     }
 

@@ -3,26 +3,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CCCompany {
+public class CreditCardCom {
 
     private String name;
 
     private List<Account> accounts;
 
-    public CCCompany(String aName) {
+    public CreditCardCom(String aName) {
         name = aName;
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
     }
 
-    public static int minimumNumberOfAccounts() {
-        return 0;
-    }
 
     public boolean setName(String aName) {
-        boolean wasSet = false;
         name = aName;
-        wasSet = true;
-        return wasSet;
+        return true;
     }
 
     public String getName() {
@@ -63,7 +58,7 @@ public class CCCompany {
         if (accounts.contains(aAccount)) {
             return false;
         }
-        CCCompany existingCreditCompany = aAccount.getCreditCompany();
+        CreditCardCom existingCreditCompany = aAccount.getCreditCompany();
         boolean isNewCreditCompany = existingCreditCompany != null && !this.equals(existingCreditCompany);
         if (isNewCreditCompany) {
             aAccount.setCreditCompany(this);
@@ -76,7 +71,6 @@ public class CCCompany {
 
     public boolean removeAccount(Account aAccount) {
         boolean wasRemoved = false;
-        //Unable to remove aAccount, as it must always have a creditCompany
         if (!this.equals(aAccount.getCreditCompany())) {
             accounts.remove(aAccount);
             wasRemoved = true;
@@ -84,51 +78,12 @@ public class CCCompany {
         return wasRemoved;
     }
 
-    /* Code from template association_AddIndexControlFunctions */
-    public boolean addAccountAt(Account aAccount, int index) {
-        boolean wasAdded = false;
-        if (addAccount(aAccount)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfAccounts()) {
-                index = numberOfAccounts()-1;
-            }
-            accounts.remove(aAccount);
-            accounts.add(index, aAccount);
-            wasAdded = true;
-        }
-        return wasAdded;
-    }
-
-    public boolean addOrMoveAccountAt(Account aAccount, int index) {
-        boolean wasAdded = false;
-        if (accounts.contains(aAccount)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfAccounts()) {
-                index = numberOfAccounts()-1;
-            }
-            accounts.remove(aAccount);
-            accounts.add(index, aAccount);
-            wasAdded = true;
-        } else {
-            wasAdded = addAccountAt(aAccount, index);
-        }
-        return wasAdded;
-    }
-
-    public void delete() {
-        for(int i = accounts.size(); i > 0; i--) {
-            Account aAccount = accounts.get(i-1);
-            aAccount.delete();
-        }
-    }
+    //TODO
 
     public boolean validateCC(long ccNumber) {
         return ccNumber > 0 && Long.toString(ccNumber).length() == 16;
     }
+
 
     public boolean charge(long ccNumber, int balance) {
         return validateCC(ccNumber);

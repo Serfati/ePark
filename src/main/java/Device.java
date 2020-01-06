@@ -5,7 +5,6 @@ import java.util.List;
 public class Device {
     private int ID;
     private String name;
-    private boolean isBroken;
     private boolean isOpen;
     private boolean isInUse;
     private boolean isExtreme;
@@ -14,21 +13,20 @@ public class Device {
     private int minAge;
     private List<Child> kids;
 
-    public Device(int aID, String aName, boolean aIsBroken, boolean aIsOpen, boolean aIsInUse, boolean aIsExtreme, int aMinHeight, int aMinWeight, int aMinAge) {
+    public Device(int aID, String aName, boolean aIsOpen, boolean aIsInUse, boolean aIsExtreme, int aMinHeight, int aMinWeight, int aMinAge) {
         ID = aID;
         name = aName;
-        isBroken = aIsBroken;
         isOpen = aIsOpen;
         isInUse = aIsInUse;
         isExtreme = aIsExtreme;
         minHeight = aMinHeight;
         minWeight = aMinWeight;
         minAge = aMinAge;
-        kids = new ArrayList<Child>();
+        kids = new ArrayList<>();
     }
 
     public static int minimumNumberOfKids() {
-        return 0;
+        return 5;
     }
 
     public boolean setID(int aID) {
@@ -41,13 +39,6 @@ public class Device {
     public boolean setName(String aName) {
         boolean wasSet = false;
         name = aName;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public boolean setIsBroken(boolean aIsBroken) {
-        boolean wasSet = false;
-        isBroken = aIsBroken;
         wasSet = true;
         return wasSet;
     }
@@ -100,10 +91,6 @@ public class Device {
 
     public String getName() {
         return name;
-    }
-
-    public boolean getIsBroken() {
-        return isBroken;
     }
 
     public boolean getIsOpen() {

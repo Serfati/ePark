@@ -11,7 +11,7 @@ public class Child {
     private boolean ridingDevice;
 
     private eTicket eTicket;
-    private eBand eBand;
+    private eBracelet eBand;
     private Device device;
     private Guardian guardian;
 
@@ -23,16 +23,16 @@ public class Child {
         age = aAge;
         ridingDevice = aRidingDevice;
         if (aETicket == null || aETicket.getKid() != null) {
-            throw new RuntimeException("Unable to create src.impl.Kid due to aETicket");
+            throw new RuntimeException("Unable to create Child due to aETicket");
         }
         eTicket = aETicket;
         boolean didAddDevice = setDevice(aDevice);
         if (!didAddDevice) {
-            throw new RuntimeException("Unable to create kid due to device");
+            throw new RuntimeException("Unable to create Child due to device");
         }
         boolean didAddGuardian = setGuardian(aGuardian);
         if (!didAddGuardian) {
-            throw new RuntimeException("Unable to create kid due to guardian");
+            throw new RuntimeException("Unable to create Child due to guardian");
         }
     }
 
@@ -46,11 +46,11 @@ public class Child {
         eTicket = new eTicket(aIdForETicket, aExpireDateForETicket, this);
         boolean didAddDevice = setDevice(aDevice);
         if (!didAddDevice) {
-            throw new RuntimeException("Unable to create kid due to device");
+            throw new RuntimeException("Unable to create Child due to device");
         }
         boolean didAddGuardian = setGuardian(aGuardian);
         if (!didAddGuardian) {
-            throw new RuntimeException("Unable to create kid due to guardian");
+            throw new RuntimeException("Unable to create Child due to guardian");
         }
     }
 
@@ -101,7 +101,7 @@ public class Child {
         this.eTicket = eTicket;
     }
 
-    public void seteBand(eBand eBand) {
+    public void seteBand(eBracelet eBand) {
         this.eBand = eBand;
     }
 
@@ -133,11 +133,11 @@ public class Child {
         return eTicket;
     }
 
-    public eBand getEBand() {
+    public eBracelet getEBand() {
         return eBand;
     }
 
-    public void setEBand(eBand aNewEBand) {
+    public void setEBand(eBracelet aNewEBand) {
         boolean wasSet = false;
         if (eBand != null && !eBand.equals(aNewEBand) && equals(eBand.getKid())) {
             return;
@@ -200,7 +200,7 @@ public class Child {
         eTicket existingETicket = eTicket;
         eTicket = null;
         if (existingETicket != null) existingETicket.delete();
-        eBand existingEBand = eBand;
+        eBracelet existingEBand = eBand;
         eBand = null;
         if (existingEBand != null) existingEBand.delete();
         Device placeholderDevice = device;

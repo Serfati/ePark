@@ -30,7 +30,7 @@ public class Guardian {
         kids = new ArrayList<>();
     }
 
-    public Guardian(int aID, String aName, int aCreditCard, int aCreditCardForAccount, int aBalanceForAccount, CCCompany aCreditCompanyForAccount, String aUserNameForWebUser, String aPasswordForWebUser) {
+    public Guardian(int aID, String aName, int aCreditCard, int aCreditCardForAccount, int aBalanceForAccount, CreditCardCom aCreditCompanyForAccount, String aUserNameForWebUser, String aPasswordForWebUser) {
         ID = aID;
         name = aName;
         creditCard = aCreditCard;

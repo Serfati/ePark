@@ -3,6 +3,7 @@ public class AppUser {
 
     private String userName;
     private String password;
+
     private Guardian guardian;
 
     public AppUser(String aUserName, String aPassword, Guardian aGuardian) {

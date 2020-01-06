@@ -9,7 +9,7 @@ public class Entry {
         device = aDeviceID;
         boolean didAddETicket = setETicket(aETicket);
         if (!didAddETicket) {
-            throw new RuntimeException("Unable to create entry due to src.impl.eTicket");
+            throw new RuntimeException("Unable to create entry due to eTicket");
         }
     }
 

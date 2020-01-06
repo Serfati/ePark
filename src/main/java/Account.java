@@ -3,10 +3,10 @@ public class Account {
     private int creditCard;
     private int balance;
     private int maxPrice;
-    private CCCompany creditCompany;
+    private CreditCardCom creditCompany;
     private Guardian guardian;
 
-    public Account(int aCreditCard, int aBalance, CCCompany aCreditCompany, Guardian aGuardian) {
+    public Account(int aCreditCard, int aBalance, CreditCardCom aCreditCompany, Guardian aGuardian) {
         creditCard = aCreditCard;
         balance = aBalance;
         maxPrice = aBalance;
@@ -20,7 +20,7 @@ public class Account {
         guardian = aGuardian;
     }
 
-    public Account(int aCreditCard, int aBalance, CCCompany aCreditCompany, int aIDForGuardian, String aNameForGuardian, int aCreditCardForGuardian, AppUser aWebUserForGuardian) {
+    public Account(int aCreditCard, int aBalance, CreditCardCom aCreditCompany, int aIDForGuardian, String aNameForGuardian, int aCreditCardForGuardian, AppUser aWebUserForGuardian) {
         creditCard = aCreditCard;
         balance = aBalance;
         boolean didAddCreditCompany = setCreditCompany(aCreditCompany);
@@ -61,7 +61,7 @@ public class Account {
         return balance;
     }
 
-    public CCCompany getCreditCompany() {
+    public CreditCardCom getCreditCompany() {
         return creditCompany;
     }
 
@@ -69,13 +69,13 @@ public class Account {
         return guardian;
     }
 
-    public boolean setCreditCompany(CCCompany aCreditCompany) {
+    public boolean setCreditCompany(CreditCardCom aCreditCompany) {
         boolean wasSet = false;
         if (aCreditCompany == null) {
             return wasSet;
         }
 
-        CCCompany existingCreditCompany = creditCompany;
+        CreditCardCom existingCreditCompany = creditCompany;
         creditCompany = aCreditCompany;
         if (existingCreditCompany != null && !existingCreditCompany.equals(aCreditCompany)) {
             existingCreditCompany.removeAccount(this);
@@ -86,7 +86,7 @@ public class Account {
     }
 
     public void delete() {
-        CCCompany placeholderCreditCompany = creditCompany;
+        CreditCardCom placeholderCreditCompany = creditCompany;
         this.creditCompany = null;
         if (placeholderCreditCompany != null) {
             placeholderCreditCompany.removeAccount(this);
