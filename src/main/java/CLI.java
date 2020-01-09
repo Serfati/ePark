@@ -4,18 +4,18 @@ import java.util.Scanner;
 
 
 public class CLI {
-
-    public static final String R = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String B = "\u001B[0;1m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[43m";
+    public static final String R = "\u001B[0m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+
 
     static AppUser loginPage() {
         Scanner keyBoard = new Scanner(System.in);
@@ -67,7 +67,7 @@ public class CLI {
         }
 
         //Try Get Credit Card Details
-        System.out.println(" ENTER your credit card number, We accept only:"+
+        System.out.println(" ENTER your credit card number, We accept only:\n"+
                 "Visa, starts with 4\n"+
                 "Mastercard, starts with 5\n"+
                 "American Express, starts with 3");
@@ -96,8 +96,8 @@ public class CLI {
         //Last Step - Measuring
         System.out.println("Measure your child please!");
         Child newKid = null; // TODO
-        newKid.setHeight(100);
-        newKid.setWeight(32);
+//        newKid.setHeight(100);
+//        newKid.setWeight(32);
         //newGuardian.addKid(newKid);
 
         Main.systemObjects.add(newWebUser);
@@ -110,7 +110,7 @@ public class CLI {
         int option;
         Scanner keyboard = new Scanner(System.in);
         String wellcome = "Welcome to ePark!";
-        System.out.println(B+ANSI_WHITE+ANSI_PURPLE_BACKGROUND+wellcome+R);
+        System.out.println(B+ANSI_WHITE+ANSI_YELLOW_BACKGROUND+wellcome+R);
         System.out.println(B+"========================================================"+R);
         System.out.println("["+B+"1"+R+"] Login");
         System.out.println("["+B+"2"+R+"] Sign Up");

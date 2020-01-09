@@ -6,15 +6,13 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Main {
+    private static int kID = 1;
     public static List<Object> systemObjects = new ArrayList<>();
     static List<AppUser> webUsers = new ArrayList<>();
-    private static int kID = 1;
-    private List<Device> parkDevices = new ArrayList<>();
-    private List<Child> kids = new ArrayList<>();
     private List<eBracelet> eBracelet = new ArrayList<>();
-    private List<CreditCardCom> parkCompanies = new ArrayList<>();
     private ChildController cControl = new ChildController();
     private GuardianController gControl = new GuardianController();
+    private List<CreditCardCom> parkCompanies = new ArrayList<>();
 
     public static void main(String[] args) {
         CLI cli = new CLI();
@@ -70,18 +68,6 @@ public class Main {
         entries.stream().map(entry -> "Ticket for: "+entry.getDevice()).forEach(System.out::println);
     }
 
-    private void initDevices() {
-        Device mamba = new Device(1, "Mamba Ride", true, false, true, 140, 25, 11);
-        Device wheel = new Device(2, "Giant Wheel", false, false, false, 50, 20, 5);
-        Device carrousel = new Device(3, "Carrousel", false, false, false, 30, 15, 6);
-        parkDevices.add(mamba);
-        systemObjects.add(mamba);
-        parkDevices.add(wheel);
-        systemObjects.add(wheel);
-        parkDevices.add(carrousel);
-        systemObjects.add(carrousel);
-    }
-
     private Child addKid(Guardian guardian) {
         throw new NotImplementedException();
     }
@@ -91,10 +77,6 @@ public class Main {
     }
 
     private void removeKid(Child kid, Guardian guardian) {
-        throw new NotImplementedException();
-    }
-
-    private List<Integer> chooseDevicesMenu(eTicket eTick) {
         throw new NotImplementedException();
     }
 

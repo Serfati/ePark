@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ public class ChildController {
     public static int SYSTEMID = 1;
     HashMap<Integer, Child> children;
     HashMap<Integer, Integer> idToSystemId;
+    private List<Child> kids = new ArrayList<>();
 
     private GuardianController gController;
 
