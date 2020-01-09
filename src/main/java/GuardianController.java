@@ -23,9 +23,6 @@ public class GuardianController {
     }
 
 
-    public void addChildToGuardian(Child child) {
-        this.guardian.addKid(child);
-    }
 
     public boolean requestCCApproval(long ccNumber) {
         return ccCompany.validateCC(ccNumber);

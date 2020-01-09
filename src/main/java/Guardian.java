@@ -8,7 +8,7 @@ public class Guardian {
 
     private int ID;
     private String name;
-    private int creditCard;
+    private double creditCard;
 
     private Account account;
     private AppUser webUser;
@@ -39,7 +39,7 @@ public class Guardian {
         kids = new ArrayList<>();
     }
 
-    public Guardian(int aID, String aName, int aCreditCard) {
+    public Guardian(int aID, String aName, double aCreditCard) {
         ID = aID;
         name = aName;
         creditCard = aCreditCard;
@@ -79,7 +79,7 @@ public class Guardian {
         return name;
     }
 
-    public int getCreditCard() {
+    public double getCreditCard() {
         return creditCard;
     }
 
@@ -129,31 +129,6 @@ public class Guardian {
         return isValid;
     }
 
-    public Child addKid(int aID, String aName, int aHeight, int aWeight, int aAge, boolean aRidingDevice, eTicket aETicket, Device aDevice) {
-        Child aNewKid = new Child(aID, aName, aHeight, aWeight, aAge, aRidingDevice, aETicket, aDevice, this);
-        return aNewKid;
-    }
-
-    public boolean addKid(Child aKid) {
-        boolean wasAdded = false;
-        if (kids.contains(aKid)) {
-            return false;
-        }
-        Guardian existingGuardian = aKid.getGuardian();
-        boolean isNewGuardian = existingGuardian != null && !this.equals(existingGuardian);
-
-        if (isNewGuardian && existingGuardian.numberOfKids() <= minimumNumberOfKids()) {
-            return wasAdded;
-        }
-        if (isNewGuardian) {
-            aKid.setGuardian(this);
-        } else {
-            kids.add(aKid);
-        }
-        wasAdded = true;
-        return wasAdded;
-    }
-
     public boolean removeKid(Child aKid) {
         boolean wasRemoved = false;
         //Unable to remove aKid, as it must always have a guardian
@@ -171,39 +146,7 @@ public class Guardian {
         return wasRemoved;
     }
 
-    public boolean addKidAt(Child aKid, int index) {
-        boolean wasAdded = false;
-        if (addKid(aKid)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfKids()) {
-                index = numberOfKids()-1;
-            }
-            kids.remove(aKid);
-            kids.add(index, aKid);
-            wasAdded = true;
-        }
-        return wasAdded;
-    }
 
-    public boolean addOrMoveKidAt(Child aKid, int index) {
-        boolean wasAdded = false;
-        if (kids.contains(aKid)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfKids()) {
-                index = numberOfKids()-1;
-            }
-            kids.remove(aKid);
-            kids.add(index, aKid);
-            wasAdded = true;
-        } else {
-            wasAdded = addKidAt(aKid, index);
-        }
-        return wasAdded;
-    }
 
     public void delete() {
         Account existingAccount = account;

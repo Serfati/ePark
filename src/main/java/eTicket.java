@@ -17,7 +17,7 @@ public class eTicket {
         expireDate = aExpireDate;
         entries = new ArrayList<Entry>();
         if (aKid == null || aKid.getETicket() != null) {
-            throw new RuntimeException("Unable to create src.impl.eTicket due to aKid.");
+            throw new RuntimeException("Unable to create eTicket due to child.");
         }
         kid = aKid;
     }

@@ -191,7 +191,7 @@ public class Child {
                 return wasSet;
             }
         }
-        guardian.addKid(this);
+        //guardian.addKid(this);
         wasSet = true;
         return wasSet;
     }

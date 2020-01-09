@@ -22,7 +22,7 @@ public class ChildController {
 
     public Child addChildToGuardian(String name, int age, int hi, int we, int id, Date time) {
         Child child = new Child(id, name, hi, we, age, false, null, null, null);
-        this.gController.addChildToGuardian(child);
+        //this.gController.addChildToGuardian(child);
         children.put(SYSTEMID, child);
         idToSystemId.put(id, SYSTEMID);
         SYSTEMID++;
