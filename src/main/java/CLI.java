@@ -28,7 +28,7 @@ public class CLI {
         AppUser webUser = Main.webUsers.stream().filter(au -> au.getUserName().equals(userName)).findFirst().filter(au -> au.getPassword().equals(password)).orElse(null);
         if (webUser != null) return webUser;
         else {
-            System.out.println(CLI.ANSI_RED+"username or password are incorrect.\n\n"+CLI.R);
+            System.out.println(ANSI_RED+"username or password are incorrect.\n\n"+R);
             return null;
         }
     }
@@ -43,7 +43,7 @@ public class CLI {
         String userName = keyBoard.next();
         Random rand = new Random();
         String password = String.format("%04d", rand.nextInt(1000));
-        System.out.println("password generated: "+B+CLI.ANSI_BLUE+password+R+" keep it");
+        System.out.println("password generated: "+B+ANSI_BLUE+password+R+" keep it");
         System.out.println("\n");
         System.out.println(B+"Personal Details");
         System.out.println("-----------------------------------"+R);
@@ -81,7 +81,7 @@ public class CLI {
             int firstNumber = Integer.parseInt(String.valueOf(creditNumber.charAt(0)));
             int creditLimit = Integer.parseInt(limitCredit);
             if (firstNumber < 3 || firstNumber > 5 || creditLimit < 10) {
-                System.out.println("ERROR!");
+                System.out.println(B+ANSI_RED+"\nERROR"+R);
                 return null;
             }
         } catch(Exception e) {
@@ -120,7 +120,7 @@ public class CLI {
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
-            System.out.println("Invalid option");
+            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
             return -1;
         }
         return option;
@@ -129,17 +129,18 @@ public class CLI {
     int myFamilyMenu() {
         int option;
         Scanner keyboard = new Scanner(System.in);
-        System.out.println(B+"~ My Family ~"+R);
+        System.out.println(B+"\n\n~ My Family "+R);
         System.out.println("========================================================");
-        System.out.println("[1] Add kid");
-        System.out.println("[2] Show my kids");
-        System.out.println("[3] Manage specific kid");
+        System.out.println("["+B+"1"+R+"] Add kid");
+        System.out.println("["+B+"2"+R+"] Show my kids");
+        System.out.println("["+B+"3"+R+"] Manage specific kid");
+        System.out.println("["+B+"4"+R+"] Exit");
         System.out.println(B+"--------------------------------------------------------");
-        System.out.println("Please select an option from 1-3"+R);
+        System.out.println("Please select an option from 1-4"+R);
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
-            System.out.println("Invalid choice!");
+            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
             return -1;
         }
         return option;
@@ -160,7 +161,7 @@ public class CLI {
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
-            System.out.println("Invalid choice!");
+            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
             return -1;
         }
         return option;

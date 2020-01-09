@@ -46,17 +46,17 @@ public class Main {
                     //addKid();
                     continue;
                 case 2:
-                    System.out.println("Your family");
+                    System.out.println("\nYour family:");
                     webUser.getGuardian().getKids().forEach(e -> System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+e.getEBand().getLocation()));
                     continue;
                 case 3:
                     //manageKid();
                     continue;
                 case 4:
-                    System.out.println(CLI.B+CLI.ANSI_CYAN+"Goodbye, hope see u soon! ");
+                    System.out.println(CLI.B+CLI.ANSI_CYAN+"\nGoodbye, hope see u soon! ");
                     exit(0);
                 default:
-                    System.out.println(CLI.ANSI_RED+"Invalid choice"+CLI.R);
+                    System.out.println(CLI.ANSI_RED+"\nInvalid choice"+CLI.R);
             }
         }
     }
