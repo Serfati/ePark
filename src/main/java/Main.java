@@ -3,6 +3,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class Main {
     public static List<Object> systemObjects = new ArrayList<>();
     static List<AppUser> webUsers = new ArrayList<>();
@@ -16,9 +18,8 @@ public class Main {
 
     public static void main(String[] args) {
         CLI cli = new CLI();
-        boolean exit = false;
         AppUser wb;
-        while(!exit) {
+        while(true) {
             int choice = cli.startUpMenu();
             switch(choice) {
                 case 1:
@@ -31,8 +32,7 @@ public class Main {
                     continue;
                 case 3:
                     System.out.println(CLI.B+CLI.ANSI_CYAN+"Hope see you soon!, bye bye");
-                    exit = true;
-                    break;
+                    exit(0);
                 default:
                     System.out.println("Invalid choice, try again.");
             }
@@ -41,8 +41,7 @@ public class Main {
 
     private static void userMenu(AppUser webUser) {
         CLI cli = new CLI();
-        boolean exit = false;
-        while(!exit) {
+        while(true) {
             int choice = cli.myFamilyMenu();
             switch(choice) {
                 case 1:
@@ -50,15 +49,14 @@ public class Main {
                     continue;
                 case 2:
                     System.out.println("Your family");
-                    webUser.getGuardian().getKids().forEach(e -> System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "));
+                    webUser.getGuardian().getKids().forEach(e -> System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+e.getEBand().getLocation()));
                     continue;
                 case 3:
                     //manageKid();
                     continue;
                 case 4:
                     System.out.println(CLI.B+CLI.ANSI_CYAN+"Goodbye, hope see u soon! ");
-                    exit = true;
-                    break;
+                    exit(0);
                 default:
                     System.out.println(CLI.ANSI_RED+"Invalid choice"+CLI.R);
             }
