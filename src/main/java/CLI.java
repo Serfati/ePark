@@ -39,11 +39,11 @@ public class CLI {
         System.out.println("\n");
         System.out.println(B+"Personal Details");
         System.out.println("-----------------------------------"+R);
-        System.out.print("ID number: ");
+        System.out.print("id: ");
         int gID = keyBoard.nextInt();
-        System.out.print("\nFull Name: ");
+        System.out.print("\nfirst name: ");
         String gName = keyBoard.next();
-        System.out.println(" ENTER your credit card number, We accept only:\n"+
+        System.out.println(" enter your credit card number, We accept only:\n"+
                 "Visa, starts with 4\n"+
                 "Mastercard, starts with 5\n"+
                 "American Express, starts with 3");
@@ -114,13 +114,15 @@ public class CLI {
         Scanner keyboard = new Scanner(System.in);
         System.out.println(B+"Manage eTicket"+R);
         System.out.println("========================================================");
-        System.out.println("["+B+"1"+R+"] Add Entries");
-        System.out.println("["+B+"2"+R+"] Remove Entries");
-        System.out.println("["+B+"3"+R+"] Remove child from the park");
-        System.out.println("["+B+"4"+R+"] Show eTicket again");
-        System.out.println("["+B+"5"+R+"] Take me back main menu");
+        System.out.println("["+B+"1"+R+"] Show eTicket details");
+        System.out.println("["+B+"2"+R+"] Add Entries");
+        System.out.println("["+B+"3"+R+"] Remove Entries");
+        System.out.println("["+B+"4"+R+"] Remove child from the park");
+        System.out.println("["+B+"5"+R+"] Take me back to main menu");
+        System.out.println("["+B+"6"+R+"] Show eTicket entries");
+        System.out.println("["+B+"7"+R+"] Show distance between me and my kid");
         System.out.println(B+"--------------------------------------------------------");
-        System.out.println("Please select an option from 1-5"+R);
+        System.out.println("Please select an option from 1-7"+R);
         int option;
         try {
             option = keyboard.nextInt();
@@ -134,8 +136,8 @@ public class CLI {
     int chooseKidMenu(AppUser webUser) {
         System.out.println(B+ANSI_BLUE+"Your Kids: "+R);
         webUser.getGuardian().getKids().forEach(e ->
-                System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()));
-        System.out.println("Please choose the ID you would like to manage");
+                System.out.println("name: "+e.getName()+" ,ID: "+e.getID()));
+        System.out.println("choose by ID");
         Scanner keyboard = new Scanner(System.in);
         while(true) try {
             int choice = keyboard.nextInt();

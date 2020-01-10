@@ -6,12 +6,15 @@ import java.util.Random;
 
 public class eBracelet {
     private Child kid;
+    private Map Location;
+
     static final List<eBracelet> existingBands = new ArrayList<>();
+
 
     public static Pair<Integer, Integer> getMeasurementsFromMeasureDevice() {
         Random r = new Random();
-        int w = r.nextInt(201-50)+50;
-        int h = r.nextInt(70-20)+50;
+        int w = r.nextInt(70-20)+20;
+        int h = r.nextInt(160-50)+50;
         return new Pair<>(w, h);
     }
 
@@ -23,6 +26,10 @@ public class eBracelet {
         return kid;
     }
 
+    public Map getLocation() {
+        return Location;
+    }
+
     public void setKid(Child aNewKid) {
         if (aNewKid == null) return;
         eBracelet existingEBand = aNewKid.getEBand();
@@ -31,11 +38,13 @@ public class eBracelet {
         kid = aNewKid;
         kid.setEBand(this);
         if (anOldKid != null) anOldKid.setEBand(null);
+        Location = new Map(kid.getName());
     }
 
     public void delete() {
         Child existingKid = kid;
         kid = null;
+        Location = null;
         if (existingKid != null) existingKid.setEBand(null);
     }
 }

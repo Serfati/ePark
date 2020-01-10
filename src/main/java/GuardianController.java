@@ -4,9 +4,11 @@ import java.util.List;
 public class GuardianController {
     private final DeviceController parkController = new DeviceController();
 
-    void showETicket(Child currentKid, eTicket eTick) {
-        System.out.println("eTicket of "+currentKid.getName()+" ID number: "+currentKid.getID());
-        System.out.println("eTicket expiration date: "+eTick.getExpireDate());
+    void showETicketDetails(eTicket eTick) {
+        System.out.println("exp date: "+CLI.B+CLI.ANSI_RED+eTick.getExpireDate()+CLI.R+"\n");
+    }
+
+    void showEntries(eTicket eTick) {
         List<Entry> entries = eTick.getEntries();
         entries.stream().map(entry -> "Ticket for: "+entry.getDevice()).forEach(System.out::println);
     }
@@ -23,12 +25,18 @@ public class GuardianController {
                 Main.systemObjects.add(e);
                 addedEntries++;
             }
-        webUser.getGuardian().getAccount().removeFromBalance(addedEntries * 10);
+        webUser.getGuardian().getAccount().removeFromBalance(addedEntries * 3);
         entriesAdded.forEach(e -> {
             eTick.removeEntry(e);
             Main.systemObjects.remove(e);
         });
         if (webUser.getGuardian().getAccount().getBalance() < 0)
-            System.out.println("Operation failed, you don't have enough money for all of this devices!");
+            System.out.println("Not enough money!");
+    }
+
+    public void calculateDistance(Child curr) {
+        Map child = new Map(curr.getName());
+        Map father = new Map("you");
+        father.distanceTo(child);
     }
 }

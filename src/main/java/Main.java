@@ -45,7 +45,7 @@ public class Main {
                 case 2:
                     System.out.println("\nYour family:");
                     webUser.getGuardian().getKids().forEach(e ->
-                            System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+Map.getCoordinatesOfBand(e.getEBand())));
+                            System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+new Map(e.getName()).getCoordinatesOfBand()));
                     continue;
                 case 3:
                     int kidID = cli.chooseKidMenu(webUser);
@@ -66,28 +66,32 @@ public class Main {
         for(Child kid : webUser.getGuardian().getKids()) if (kid.getID() == kidID) currentKid = kid;
         assert currentKid != null;
         eTicket eTick = currentKid.getETicket();
-        gControl.showETicket(currentKid, eTick);
         boolean exit = false;
         while(!exit) {
             int choice = cli.eTicketMenu();
             switch(choice) {
                 case 1:
-                    gControl.addEntries(currentKid, webUser, eTick);
+                    gControl.showETicketDetails(eTick);
                     continue;
                 case 2:
-                    cControl.removeEntries(currentKid, webUser, eTick);
+                    gControl.addEntries(currentKid, webUser, eTick);
                     continue;
                 case 3:
+                    cControl.removeEntries(currentKid, webUser, eTick);
+                    continue;
+                case 4:
                     cControl.removeKid(currentKid, webUser.getGuardian());
                     exit = true;
                     break;
-                case 4:
-                    gControl.showETicket(currentKid, eTick);
-                    continue;
                 case 5:
-                    System.out.println("go to previous menu");
                     exit = true;
                     break;
+                case 6:
+                    gControl.showEntries(eTick);
+                    continue;
+                case 7:
+                    gControl.calculateDistance(currentKid);
+                    continue;
                 default:
                     System.out.println("Wrong choice");
             }

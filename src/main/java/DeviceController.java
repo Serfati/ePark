@@ -28,17 +28,18 @@ public class DeviceController {
 
     List<Device> chooseDevicesToAddMenu(Child currentKid) {
         showRelevantDevices(currentKid);
-        System.out.println("Please choose the entries to add, press -1 to exit ");
+        System.out.println("choose number or press 0 to return ");
         Scanner keyboard = new Scanner(System.in);
         List<Device> devicesToAdd = new ArrayList<>();
         while(true) try {
             int deviceId = keyboard.nextInt();
-            if (deviceId == -1) break;
+            if (deviceId == 0) break;
             else {
                 List<Device> collect = parkDevices.stream().filter(e -> e.getID() == deviceId && e.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight())).collect(Collectors.toList());
                 if (collect.size() > 0) {
                     devicesToAdd.addAll(collect);
-                    System.out.println("Added device "+deviceId+" to the list of devices to add");
+                    System.out.println("added "+deviceId+" to eTicket");
+                    break;
                 } else
                     throw new Exception();
             }
@@ -56,23 +57,31 @@ public class DeviceController {
             if (parkDevice.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight())) {
                 if (!existRelevant) {
                     existRelevant = true;
-                    System.out.println("We have fixed price for all the devices - 10$ for each device");
+                    System.out.println("All the devices price is 3$");
                 }
-                System.out.println(parkDevice.getName()+" - deviceID: "+parkDevice.getID());
+                System.out.println(parkDevice.getName()+" - press: "+parkDevice.getID());
             }
         if (!existRelevant) System.out.println("no relevant devices");
     }
 
     private void initDevices() {
+
         Device mamba = new Device(1, "Mamba Ride", true, false, true, 140, 25, 11);
         Device wheel = new Device(2, "Giant Wheel", true, false, false, 50, 20, 5);
         Device carousel = new Device(3, "Carousel", true, false, false, 30, 15, 6);
+        Device cars = new Device(4, "cars", true, false, false, 30, 15, 5);
+        Device rollercoster = new Device(5, "RollerCoster", true, false, true, 120, 40, 13);
 
         parkDevices.add(mamba);
-        Main.systemObjects.add(mamba);
         parkDevices.add(wheel);
-        Main.systemObjects.add(wheel);
         parkDevices.add(carousel);
+        parkDevices.add(cars);
+        parkDevices.add(rollercoster);
+
+        Main.systemObjects.add(mamba);
+        Main.systemObjects.add(wheel);
         Main.systemObjects.add(carousel);
+        Main.systemObjects.add(cars);
+        Main.systemObjects.add(rollercoster);
     }
 }

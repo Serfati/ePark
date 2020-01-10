@@ -14,9 +14,9 @@ public class ChildController {
         String kidName;
         String kidAge;
         while(true) {
-            System.out.println("Please Enter Your Kid's Name");
+            System.out.print("child's name:");
             kidName = keyBoard.next();
-            System.out.println("Please Enter Your Kid Age");
+            System.out.print("child's age:");
             kidAge = keyBoard.next();
             if (Integer.parseInt(kidAge) >= 1 && kidName.length() >= 1) break;
             else
@@ -30,16 +30,17 @@ public class ChildController {
         newKid.seteBand(newKideband);
         newKid.seteTicket(newKideTicket);
         newKideTicket.setKid(newKid);
-        System.out.println(newKid.getName()+" added to your kids");
+        System.out.println(newKid.getName()+" added to your kids\n");
         //Last Step - Measuring
 
-        System.out.println("Please measure your kid! W and H");
+        System.out.println(CLI.B+CLI.ANSI_BLUE+"Please measure your kid"+CLI.R);
+        System.out.println(CLI.B+"-------------------------------------------"+CLI.R);
         Pair<Integer, Integer> measures = eBracelet.getMeasurementsFromMeasureDevice();
         newKid.setHeight(measures.getValue());
         newKid.setWeight(measures.getKey());
-
+        System.out.println("received height:"+newKid.getHeight()+"cm");
+        System.out.println("received weight:"+newKid.getWeight()+"kg");
         guardian.addKid(newKid);
-
         Main.systemObjects.add(newKid);
         Main.systemObjects.add(newKideband);
         Main.systemObjects.add(newKideTicket);
@@ -47,13 +48,13 @@ public class ChildController {
     }
 
     void removeKid(Child kid, Guardian guardian) {
-        System.out.println("First ,please return "+kid.getName()+"'s eBand");
+        System.out.println("return "+kid.getName()+"'s eBracelet");
         eBracelet.returnUsedBand(kid.getEBand());
-        System.out.println("Now we will remove "+kid.getName()+" from the system, please wait");
+        System.out.println("removing "+kid.getName()+" from system");
         int numOfEntries = kid.getETicket().getEntries().size();
         int finalCharge = numOfEntries * 10;
         if (finalCharge > 0) if (PayPal.chargeCard()) {
-            System.out.println("We will charge your credit card for: "+finalCharge+" shekel");
+            System.out.println("We will charge your credit card for: "+finalCharge+"$");
             System.out.println("balance:"+guardian.getAccount().getBalance());
         }
         if (guardian.removeKid(kid)) {
@@ -85,6 +86,6 @@ public class ChildController {
                 removedEntries++;
             }
         }
-        webUser.getGuardian().getAccount().addToBalance(removedEntries * 10);
+        webUser.getGuardian().getAccount().addToBalance(removedEntries * 3);
     }
 }
