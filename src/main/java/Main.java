@@ -1,32 +1,29 @@
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.exit;
 
 public class Main {
-    private static int kID = 1;
     public static List<Object> systemObjects = new ArrayList<>();
     static List<AppUser> webUsers = new ArrayList<>();
-    private List<eBracelet> eBracelet = new ArrayList<>();
+
     private ChildController cControl = new ChildController();
     private GuardianController gControl = new GuardianController();
-    private List<CreditCardCom> parkCompanies = new ArrayList<>();
 
     public static void main(String[] args) {
+        Main main = new Main();
         CLI cli = new CLI();
-        AppUser wb;
         while(true) {
             int choice = cli.startUpMenu();
+            AppUser wb;
             switch(choice) {
                 case 1:
                     wb = CLI.loginPage();
-                    if (wb != null) userMenu(wb);
+                    if (wb != null) main.userMenu(wb);
                     continue;
                 case 2:
-                    wb = CLI.signupPage();
-                    userMenu(wb);
+                    wb = CLI.signPage();
+                    main.userMenu(wb);
                     continue;
                 case 3:
                     System.out.println(CLI.B+CLI.ANSI_CYAN+"Hope see you soon!, bye bye");
@@ -37,20 +34,22 @@ public class Main {
         }
     }
 
-    private static void userMenu(AppUser webUser) {
+    private void userMenu(AppUser webUser) {
         CLI cli = new CLI();
         while(true) {
             int choice = cli.myFamilyMenu();
             switch(choice) {
                 case 1:
-                    //addKid();
+                    cControl.addKid(webUser.getGuardian());
                     continue;
                 case 2:
                     System.out.println("\nYour family:");
-                    webUser.getGuardian().getKids().forEach(e -> System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+e.getEBand().getLocation()));
+                    webUser.getGuardian().getKids().forEach(e ->
+                            System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()+" ,Location: "+Map.getCoordinatesOfBand(e.getEBand())));
                     continue;
                 case 3:
-                    //manageKid();
+                    int kidID = cli.chooseKidMenu(webUser);
+                    manageKid(kidID, webUser);
                     continue;
                 case 4:
                     System.out.println(CLI.B+CLI.ANSI_CYAN+"\nGoodbye, hope see u soon! ");
@@ -61,27 +60,37 @@ public class Main {
         }
     }
 
-    private void showETicket(Child currentKid, eTicket eTick) {
-        System.out.println("eTicket of "+currentKid.getName()+" ID number: "+currentKid.getID());
-        System.out.println("expiration date: "+eTick.getExpireDate());
-        List<Entry> entries = eTick.getEntries();
-        entries.stream().map(entry -> "Ticket for: "+entry.getDevice()).forEach(System.out::println);
-    }
-
-    private Child addKid(Guardian guardian) {
-        throw new NotImplementedException();
-    }
-
     private void manageKid(int kidID, AppUser webUser) {
-        throw new NotImplementedException();
+        CLI cli = new CLI();
+        Child currentKid = null;
+        for(Child kid : webUser.getGuardian().getKids()) if (kid.getID() == kidID) currentKid = kid;
+        assert currentKid != null;
+        eTicket eTick = currentKid.getETicket();
+        gControl.showETicket(currentKid, eTick);
+        boolean exit = false;
+        while(!exit) {
+            int choice = cli.eTicketMenu();
+            switch(choice) {
+                case 1:
+                    gControl.addEntries(currentKid, webUser, eTick);
+                    continue;
+                case 2:
+                    cControl.removeEntries(currentKid, webUser, eTick);
+                    continue;
+                case 3:
+                    cControl.removeKid(currentKid, webUser.getGuardian());
+                    exit = true;
+                    break;
+                case 4:
+                    gControl.showETicket(currentKid, eTick);
+                    continue;
+                case 5:
+                    System.out.println("Back to previous menu :) ");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Wrong choice");
+            }
+        }
     }
-
-    private void removeKid(Child kid, Guardian guardian) {
-        throw new NotImplementedException();
-    }
-
-    private void addEntries(Child kidID, AppUser webUser, eTicket eTick) {
-        throw new NotImplementedException();
-    }
-
 }

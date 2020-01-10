@@ -1,65 +1,41 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class eBracelet {
-
-    private static int bandID = 0;
-    private int ID;
     private Child kid;
-    private Map location;
+    static List<eBracelet> existingBands = new ArrayList<>();
 
-    public eBracelet() {
-        ID = bandID;
-        bandID++;
-        location = new Map();
+    public static Pair<Integer, Integer> getMeasurementsFromMeasureDevice() {
+        Random r = new Random();
+        int w = r.nextInt(201-50)+50;
+        int h = r.nextInt(70-20)+50;
+        return new Pair<>(w, h);
     }
 
-    public Map getLocation() {
-        double randomX = Math.random() * 500;
-        double randomY = Math.random() * 500;
-        setLocation(randomX, randomY);
-        return location;
-    }
-
-    private void setLocation(double _x, double _y) {
-        location.setX(_x);
-        location.setY(_y);
-    }
-
-    public boolean setID(int aID) {
-        boolean wasSet = false;
-        ID = aID;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public int getID() {
-        return ID;
+    public static void returnUsedBand(eBracelet eBand) {
+        if (eBand != null) existingBands.add(eBand);
     }
 
     public Child getKid() {
         return kid;
     }
 
-    public boolean setKid(Child aNewKid) {
-        boolean wasSet = false;
-        if (aNewKid == null) return wasSet;
-
+    public void setKid(Child aNewKid) {
+        if (aNewKid == null) return;
         eBracelet existingEBand = aNewKid.getEBand();
-        if (existingEBand != null && !equals(existingEBand)) return wasSet;
-
+        if (existingEBand != null && !equals(existingEBand)) return;
         Child anOldKid = kid;
         kid = aNewKid;
         kid.setEBand(this);
-
         if (anOldKid != null) anOldKid.setEBand(null);
-        wasSet = true;
-        return wasSet;
     }
 
     public void delete() {
         Child existingKid = kid;
         kid = null;
-        if (existingKid != null) {
-            existingKid.setEBand(null);
-        }
+        if (existingKid != null) existingKid.setEBand(null);
     }
 }

@@ -1,13 +1,9 @@
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-
 public class CLI {
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_CYAN = "\u001B[36m";
@@ -16,15 +12,12 @@ public class CLI {
     public static final String R = "\u001B[0m";
     public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
 
-
     static AppUser loginPage() {
         Scanner keyBoard = new Scanner(System.in);
-        String userName;
-        String password;
-        System.out.println("Please Enter Your User Name");
-        userName = keyBoard.nextLine();
-        System.out.println("Please Enter Your Password");
-        password = keyBoard.nextLine();
+        System.out.print("username: ");
+        String userName = keyBoard.nextLine();
+        System.out.println("\npassword: ");
+        String password = keyBoard.nextLine();
         AppUser webUser = Main.webUsers.stream().filter(au -> au.getUserName().equals(userName)).findFirst().filter(au -> au.getPassword().equals(password)).orElse(null);
         if (webUser != null) return webUser;
         else {
@@ -33,8 +26,7 @@ public class CLI {
         }
     }
 
-    static AppUser signupPage() {
-        //UC-1
+    static AppUser signPage() {
         System.out.println(B+"\n\n-----------------------------------");
         System.out.println("Sign up page");
         System.out.println("-----------------------------------"+R);
@@ -53,20 +45,15 @@ public class CLI {
         String gName = keyBoard.next();
         System.out.print(B+"\nChild Details: ");
         System.out.println("\n-----------------------------------"+R);
-        //Try Get Kid Details
-        boolean validKid = false;
-        String kidAge = "";
-        while(!validKid) {
+        while(true) {
             System.out.println("Please Enter Your Kid's Name");
             String kidName = keyBoard.next();
             System.out.println("Please Enter Your Kid Age");
-            kidAge = keyBoard.next();
+            String kidAge = keyBoard.next();
             if (Integer.parseInt(kidAge) < 1 || kidName.length() < 1)
                 System.out.println("Invalid input!");
-            else validKid = true;
+            else break;
         }
-
-        //Try Get Credit Card Details
         System.out.println(" ENTER your credit card number, We accept only:\n"+
                 "Visa, starts with 4\n"+
                 "Mastercard, starts with 5\n"+
@@ -77,7 +64,7 @@ public class CLI {
 
 
         try {
-            double creditNum = Double.parseDouble(creditNumber);
+            //double creditNum = Double.parseDouble(creditNumber);
             int firstNumber = Integer.parseInt(String.valueOf(creditNumber.charAt(0)));
             int creditLimit = Integer.parseInt(limitCredit);
             if (firstNumber < 3 || firstNumber > 5 || creditLimit < 10) {
@@ -87,18 +74,16 @@ public class CLI {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        //Great! Create An Account, WebUser, Guardian
         System.out.println("signup succeeded!");
-        Guardian newGuardian = new Guardian(gID, gName, Double.parseDouble(creditNumber));
+        Guardian newGuardian = new Guardian(gID, gName, Integer.parseInt(creditNumber));
         AppUser newWebUser = new AppUser(userName, password, newGuardian);
 
-
-        //Last Step - Measuring
         System.out.println("Measure your child please!");
-        Child newKid = null; // TODO
-//        newKid.setHeight(100);
-//        newKid.setWeight(32);
-        //newGuardian.addKid(newKid);
+        assert false;
+        Child newKid = null;
+        newKid.setHeight(100);
+        newKid.setWeight(32);
+        newGuardian.addKid(newKid);
 
         Main.systemObjects.add(newWebUser);
         Main.systemObjects.add(newGuardian);
@@ -107,16 +92,15 @@ public class CLI {
     }
 
     int startUpMenu() {
-        int option;
         Scanner keyboard = new Scanner(System.in);
-        String wellcome = "Welcome to ePark!";
-        System.out.println(B+ANSI_WHITE+ANSI_YELLOW_BACKGROUND+wellcome+R);
+        System.out.println(B+ANSI_WHITE+ANSI_YELLOW_BACKGROUND+"Welcome to ePark!"+R);
         System.out.println(B+"========================================================"+R);
         System.out.println("["+B+"1"+R+"] Login");
         System.out.println("["+B+"2"+R+"] Sign Up");
         System.out.println("["+B+"3"+R+"] Exit");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-3"+R);
+        int option;
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
@@ -127,7 +111,6 @@ public class CLI {
     }
 
     int myFamilyMenu() {
-        int option;
         Scanner keyboard = new Scanner(System.in);
         System.out.println(B+"\n\n~ My Family "+R);
         System.out.println("========================================================");
@@ -137,6 +120,7 @@ public class CLI {
         System.out.println("["+B+"4"+R+"] Exit");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-4"+R);
+        int option;
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
@@ -146,18 +130,18 @@ public class CLI {
         return option;
     }
 
-    private int eTicketMenu() {
-        int option;
+    int eTicketMenu() {
         Scanner keyboard = new Scanner(System.in);
         System.out.println(B+"Manage eTicket"+R);
         System.out.println("========================================================");
-        System.out.println("[1] Add Entries");
-        System.out.println("[2] Remove Entries");
-        System.out.println("[3] Remove child from the park");
-        System.out.println("[4] Show eTicket again");
-        System.out.println("[5] Take me back main menu");
+        System.out.println("["+B+"1"+R+"] Add Entries");
+        System.out.println("["+B+"2"+R+"] Remove Entries");
+        System.out.println("["+B+"3"+R+"] Remove child from the park");
+        System.out.println("["+B+"4"+R+"] Show eTicket again");
+        System.out.println("["+B+"5"+R+"] Take me back main menu");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-5"+R);
+        int option;
         try {
             option = keyboard.nextInt();
         } catch(Exception e) {
@@ -165,5 +149,40 @@ public class CLI {
             return -1;
         }
         return option;
+    }
+
+    int chooseKidMenu(AppUser webUser) {
+        System.out.println(B+ANSI_BLUE+"Your Kids: "+R);
+        webUser.getGuardian().getKids().forEach(e ->
+                System.out.println("Name: "+e.getName()+" ,Id: "+e.getID()));
+        System.out.println("Please choose the ID you would like to manage");
+        Scanner keyboard = new Scanner(System.in);
+        while(true) try {
+            int choice = keyboard.nextInt();
+            if (webUser.getGuardian().getKids().stream().anyMatch(e -> e.getID() == choice)) return choice;
+        } catch(Exception e) {
+            System.out.println("please enter valid ID from the shown list");
+            keyboard.nextLine();
+        }
+    }
+
+    List<Integer> chooseDevicesMenu(eTicket eTick) {
+        System.out.println("Please choose the entries you would like to delete, you can choose -1 at any point to exit this menu");
+        Scanner keyboard = new Scanner(System.in);
+        boolean stillSelecting = true;
+        List<Integer> devicesToRemove = new ArrayList<>();
+        while(stillSelecting) try {
+            int deviceId = keyboard.nextInt();
+            if (deviceId != -1) if (eTick.getEntries().stream().anyMatch(e -> e.getDevice().getID() == deviceId)) {
+                devicesToRemove.add(deviceId);
+                System.out.println("Added device "+deviceId+" to the list of devices to remove");
+            } else
+                throw new Exception();
+            else stillSelecting = false;
+        } catch(Exception e) {
+            System.out.println("enter a valid number");
+            keyboard.nextLine();
+        }
+        return devicesToRemove;
     }
 }

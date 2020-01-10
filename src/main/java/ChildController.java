@@ -1,102 +1,90 @@
-import java.util.ArrayList;
+import javafx.util.Pair;
+
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 
 public class ChildController {
+    public static int kID = 1;
+    static HashSet<Child> kids = new HashSet<>();
 
-    public static int SYSTEMID = 1;
-    HashMap<Integer, Child> children;
-    HashMap<Integer, Integer> idToSystemId;
-    private List<Child> kids = new ArrayList<>();
-
-    private GuardianController gController;
-
-
-    public ChildController() {
-        children = new HashMap<>();
-        idToSystemId = new HashMap<>();
-    }
-
-    public void setgController(GuardianController gController) {
-        this.gController = gController;
-    }
-
-    public Child addChildToGuardian(String name, int age, int hi, int we, int id, Date time) {
-        Child child = new Child(id, name, hi, we, age, false, null, null, null);
-        //this.gController.addChildToGuardian(child);
-        children.put(SYSTEMID, child);
-        idToSystemId.put(id, SYSTEMID);
-        SYSTEMID++;
-        createBracelet(child);
-        createETicket(time, child);
-        return child;
-    }
-
-    private void createBracelet(Child child) {
-        eBracelet bracelet = new eBracelet();
-        child.setEBand(bracelet);
-    }
-
-    private void createETicket(Date d, Child child) {
-        eTicket eTicket = new eTicket(SYSTEMID, d, child);
-        child.seteTicket(eTicket);
-    }
-
-    public Object getBraceletById(int id) {
-        return children.get(id).getEBand();
-    }
-
-    public eTicket getETickettById(int id) {
-        return children.get(id).getETicket();
-    }
-
-    public List<Entry> getEntriesById(int id) {
-        return children.get(id).getETicket().getEntries();
-    }
-
-
-    public int getChildID(long id) {
-        return idToSystemId.get(id);
-    }
-
-    public boolean checkChildName(String name) {
-        return name != null && !name.isEmpty();
-    }
-
-    public boolean checkChildAge(int age) {
-        return age > 2 && age < 18;
-    }
-
-
-    public boolean checkChildId(long id) {
-        return id > 0;
-    }
-
-    public void measureChild(int childId) {
-        Child child = children.get(childId);
-        int height = (int) (Math.random() * 160);
-        child.setHeight(height);
-        int weight = (int) (Math.random() * 70);
-        child.setWeight(weight);
-    }
-
-
-    public Entry createEntry(int systemId, Device device) {
-        if (gController.checkMaxCharge(device.getPrice())) {
-            eTicket eTicket = getETickettById(systemId);
-            Entry entry = new Entry(device, eTicket);
-            eTicket.addEntry(entry);
-            gController.updatePayment(device.getPrice());
-            return entry;
+    void addKid(Guardian guardian) {
+        Scanner keyBoard = new Scanner(System.in);
+        String kidName;
+        String kidAge;
+        while(true) {
+            System.out.println("Please Enter Your Kid's Name");
+            kidName = keyBoard.next();
+            System.out.println("Please Enter Your Kid Age");
+            kidAge = keyBoard.next();
+            if (Integer.parseInt(kidAge) >= 1 && kidName.length() >= 1) break;
+            else
+                System.out.println("wrong details");
         }
-        return null;
+        Child newKid = new Child(kID, kidName, Integer.parseInt(kidAge), guardian);
+        eTicket newKideTicket = new eTicket(new Date(), newKid);
+        kID++;
+        eBracelet newKideband = !eBracelet.existingBands.isEmpty() ? eBracelet.existingBands.remove(0) : new eBracelet();
+        newKideband.setKid(newKid);
+        newKid.seteBand(newKideband);
+        newKid.seteTicket(newKideTicket);
+        newKideTicket.setKid(newKid);
+        System.out.println(newKid.getName()+" added to your kids");
+        //Last Step - Measuring
+
+        System.out.println("Please measure your kid! W and H");
+        Pair<Integer, Integer> measures = eBracelet.getMeasurementsFromMeasureDevice();
+        newKid.setHeight(measures.getValue());
+        newKid.setWeight(measures.getKey());
+
+        guardian.addKid(newKid);
+
+        Main.systemObjects.add(newKid);
+        Main.systemObjects.add(newKideband);
+        Main.systemObjects.add(newKideTicket);
+        kids.add(newKid);
     }
 
-    public void removeEntry(int systemId, Entry entryNum, Device device) {
-        eTicket eTicket = getETickettById(systemId);
-        eTicket.removeEntry(entryNum);
-        gController.updatePayment(-1 * device.getPrice());
+    void removeKid(Child kid, Guardian guardian) {
+        System.out.println("First ,please return "+kid.getName()+"'s eBand");
+        eBracelet.returnUsedBand(kid.getEBand());
+        System.out.println("Now we will remove "+kid.getName()+" from the system, please wait");
+        int numOfEntries = kid.getETicket().getEntries().size();
+        int finalCharge = numOfEntries * 10;
+        if (finalCharge > 0) if (PayPal.chargeCard()) {
+            System.out.println("We will charge your credit card for: "+finalCharge+" shekel");
+            System.out.println("balance:"+guardian.getAccount().getBalance());
+        }
+        if (guardian.removeKid(kid)) {
+            Main.systemObjects.remove(kid.getETicket());
+            Main.systemObjects.remove(kid);
+            kids.remove(kid);
+            kid.delete();
+        } else {
+            Main.systemObjects.remove(guardian);
+            Main.systemObjects.remove(guardian.getWebUser());
+            Main.systemObjects.remove(guardian.getAccount());
+            Main.systemObjects.remove(kid.getETicket());
+            Main.systemObjects.remove(kid);
+            kids.remove(kid);
+            Main.webUsers.remove(guardian.getWebUser());
+            guardian.delete();
+        }
+    }
 
+    void removeEntries(Child kidID, AppUser webUser, eTicket eTick) {
+        CLI cli = new CLI();
+        List<Integer> devicesToDelete = cli.chooseDevicesMenu(eTick);
+        int removedEntries = 0;
+        for(Integer integer : devicesToDelete) {
+            Entry e = eTick.getEntryByID(kidID, integer);
+            if (e != null) {
+                kidID.getETicket().removeEntry(e);
+                Main.systemObjects.remove(e);
+                removedEntries++;
+            }
+        }
+        webUser.getGuardian().getAccount().addToBalance(removedEntries * 10);
     }
 }

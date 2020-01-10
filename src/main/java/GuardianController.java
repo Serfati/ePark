@@ -1,51 +1,34 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class GuardianController {
+    private DeviceController parkController = new DeviceController();
 
-    private ChildController cController;
-    private Guardian guardian;
-    private Account account;
-    private CreditCardCom ccCompany;
-
-    public GuardianController() {
+    void showETicket(Child currentKid, eTicket eTick) {
+        System.out.println("eTicket of "+currentKid.getName()+" ID number: "+currentKid.getID());
+        System.out.println("eTicket expiration date: "+eTick.getExpireDate());
+        List<Entry> entries = eTick.getEntries();
+        entries.stream().map(entry -> "Ticket for: "+entry.getDevice()).forEach(System.out::println);
     }
 
-    public void setcController(ChildController cController) {
-        this.cController = cController;
-    }
-
-    public void createGuardian(int id, String name, int cc, AppUser au, Account a) {
-        this.guardian = new Guardian(id, name, cc, a, au);
-    }
-
-    public void createAccount(int ccNumber, int bal, String comName) {
-        CreditCardCom c = new CreditCardCom(comName);
-        this.account = new Account(ccNumber, bal, c, guardian);
-        this.guardian.setAccount(this.account);
-    }
-
-
-
-    public boolean requestCCApproval(long ccNumber) {
-        return ccCompany.validateCC(ccNumber);
-    }
-
-    public Guardian getGuardian() {
-        return guardian;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public CreditCardCom getCcCompany() {
-        return ccCompany;
-    }
-
-    public boolean checkMaxCharge(int price) {
-        return account.getMaxPrice() <= account.getBalance()+price;
-    }
-
-    public void updatePayment(int price) {
-        account.setBalance(price);
-
+    void addEntries(Child kidID, AppUser webUser, eTicket eTick) {
+        List<Device> devicesToAdd = parkController.chooseDevicesToAddMenu(kidID);
+        List<Entry> entriesAdded = new ArrayList<>();
+        int addedEntries = 0;
+        for(Device device : devicesToAdd)
+            if (device.getIsExtreme()) addedEntries = DeviceController.handleExtremeDevice(eTick, addedEntries, device);
+            else {
+                Entry e = new Entry(device, eTick);
+                entriesAdded.add(e);
+                Main.systemObjects.add(e);
+                addedEntries++;
+            }
+        webUser.getGuardian().getAccount().removeFromBalance(addedEntries * 10);
+        entriesAdded.forEach(e -> {
+            eTick.removeEntry(e);
+            Main.systemObjects.remove(e);
+        });
+        if (webUser.getGuardian().getAccount().getBalance() < 0)
+            System.out.println("Operation failed, you don't have enough money for all of this devices!");
     }
 }
