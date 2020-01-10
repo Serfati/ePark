@@ -85,7 +85,7 @@ public class Main {
                     gControl.showETicket(currentKid, eTick);
                     continue;
                 case 5:
-                    System.out.println("Back to previous menu :) ");
+                    System.out.println("go to previous menu");
                     exit = true;
                     break;
                 default:

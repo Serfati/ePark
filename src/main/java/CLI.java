@@ -16,12 +16,12 @@ public class CLI {
         Scanner keyBoard = new Scanner(System.in);
         System.out.print("username: ");
         String userName = keyBoard.nextLine();
-        System.out.println("\npassword: ");
+        System.out.print("\npassword: ");
         String password = keyBoard.nextLine();
         AppUser webUser = Main.webUsers.stream().filter(au -> au.getUserName().equals(userName)).findFirst().filter(au -> au.getPassword().equals(password)).orElse(null);
         if (webUser != null) return webUser;
         else {
-            System.out.println(ANSI_RED+"username or password are incorrect.\n\n"+R);
+            System.out.println(ANSI_RED+"\nusername or password are incorrect.\n\n"+R);
             return null;
         }
     }
@@ -43,17 +43,6 @@ public class CLI {
         int gID = keyBoard.nextInt();
         System.out.print("\nFull Name: ");
         String gName = keyBoard.next();
-        System.out.print(B+"\nChild Details: ");
-        System.out.println("\n-----------------------------------"+R);
-        while(true) {
-            System.out.println("Please Enter Your Kid's Name");
-            String kidName = keyBoard.next();
-            System.out.println("Please Enter Your Kid Age");
-            String kidAge = keyBoard.next();
-            if (Integer.parseInt(kidAge) < 1 || kidName.length() < 1)
-                System.out.println("Invalid input!");
-            else break;
-        }
         System.out.println(" ENTER your credit card number, We accept only:\n"+
                 "Visa, starts with 4\n"+
                 "Mastercard, starts with 5\n"+
@@ -61,7 +50,6 @@ public class CLI {
         String creditNumber = keyBoard.next();
         System.out.println("Budget limit for credit card: (>10$)");
         String limitCredit = keyBoard.next();
-
 
         try {
             //double creditNum = Double.parseDouble(creditNumber);
@@ -77,14 +65,6 @@ public class CLI {
         System.out.println("signup succeeded!");
         Guardian newGuardian = new Guardian(gID, gName, Integer.parseInt(creditNumber));
         AppUser newWebUser = new AppUser(userName, password, newGuardian);
-
-        System.out.println("Measure your child please!");
-        assert false;
-        Child newKid = null;
-        newKid.setHeight(100);
-        newKid.setWeight(32);
-        newGuardian.addKid(newKid);
-
         Main.systemObjects.add(newWebUser);
         Main.systemObjects.add(newGuardian);
         Main.webUsers.add(newWebUser);
