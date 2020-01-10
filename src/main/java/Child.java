@@ -1,10 +1,10 @@
 public class Child {
 
-    private int ID;
-    private String name;
+    private final int ID;
+    private final String name;
     private int height;
     private int weight;
-    private int age;
+    private final int age;
 
     private eTicket eTicket;
     private eBracelet eBand;

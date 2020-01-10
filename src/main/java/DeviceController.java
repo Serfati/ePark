@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class DeviceController {
-    public List<Device> parkDevices = new ArrayList<>();
+    public final List<Device> parkDevices = new ArrayList<>();
 
     static int handleExtremeDevice(eTicket eTick, int addedEntries, Device device) {
         System.out.println(device.getName()+" id:"+device.getID()+"is EXTREME! are you sure");

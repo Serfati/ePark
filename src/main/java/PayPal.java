@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class PayPal {
-    private String credit_company; // VISA or AMEX or MASTERCARD
+    private final String credit_company; // VISA or AMEX or MASTERCARD
     private List<Account> accounts; // list of all credit accounts of this. company
 
     public PayPal(String name) {

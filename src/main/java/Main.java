@@ -4,11 +4,11 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Main {
-    public static List<Object> systemObjects = new ArrayList<>();
-    static List<AppUser> webUsers = new ArrayList<>();
+    public static final List<Object> systemObjects = new ArrayList<>();
+    static final List<AppUser> webUsers = new ArrayList<>();
 
-    private ChildController cControl = new ChildController();
-    private GuardianController gControl = new GuardianController();
+    private final ChildController cControl = new ChildController();
+    private final GuardianController gControl = new GuardianController();
 
     public static void main(String[] args) {
         Main main = new Main();

@@ -2,15 +2,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Device {
-    private int ID;
-    private String name;
-    private boolean isExtreme;
-    private boolean IsOpen;
-    private boolean IsInUse;
-    private int minHeight;
-    private int minWeight;
-    private int minAge;
-    private List<Child> kids;
+    private final int ID;
+    private final String name;
+    private final boolean isExtreme;
+    private final boolean IsOpen;
+    private final boolean IsInUse;
+    private final int minHeight;
+    private final int minWeight;
+    private final int minAge;
+    private final List<Child> kids;
 
     public Device(int aID, String aName, boolean aIsOpen, boolean aIsInUse, boolean aIsExtreme, int aMinHeight, int aMinWeight, int aMinAge) {
         ID = aID;

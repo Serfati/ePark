@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuardianController {
-    private DeviceController parkController = new DeviceController();
+    private final DeviceController parkController = new DeviceController();
 
     void showETicket(Child currentKid, eTicket eTick) {
         System.out.println("eTicket of "+currentKid.getName()+" ID number: "+currentKid.getID());

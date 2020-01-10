@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public class eTicket {
-    private Date expireDate;
-    private List<Entry> entries;
+    private final Date expireDate;
+    private final List<Entry> entries;
     private Child kid;
 
     public eTicket(Date aExpireDate, Child aKid) {

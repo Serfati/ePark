@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class eBracelet {
     private Child kid;
-    static List<eBracelet> existingBands = new ArrayList<>();
+    static final List<eBracelet> existingBands = new ArrayList<>();
 
     public static Pair<Integer, Integer> getMeasurementsFromMeasureDevice() {
         Random r = new Random();

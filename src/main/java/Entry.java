@@ -1,5 +1,5 @@
 public class Entry {
-    private Device device;
+    private final Device device;
     private eTicket eTicket;
 
     public Entry(Device aDeviceID, eTicket aETicket) {
