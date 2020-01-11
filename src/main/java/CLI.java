@@ -86,7 +86,7 @@ public class CLI {
             e.printStackTrace();
         }
 
-        System.out.println("signup succeeded!");
+        System.out.println(CLI.B+CLI.ANSI_CYAN+"\nsignup succeeded!\n");
         Guardian newGuardian = new Guardian(gID, gName);
 
         Account newAccount = new Account(Integer.parseInt(limitCredit), Integer.parseInt(creditNumber), PayPal.companies.get(creditCompany), newGuardian);

@@ -22,7 +22,6 @@ public class Guardian {
     }
 
     public boolean removeKid(Child aKid) {
-        if (!this.equals(aKid.getGuardian())) return false;
         if (ChildController.kids.size() <= 1) return false;
         ChildController.kids.remove(aKid);
         return true;
