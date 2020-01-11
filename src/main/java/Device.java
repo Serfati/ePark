@@ -36,16 +36,6 @@ public class Device {
         return isExtreme;
     }
 
-    public void addKid(Child aKid) {
-        if (kids.contains(aKid)) return;
-        Device existingDevice = aKid.getDevice();
-        boolean isNewDevice = existingDevice != null && !this.equals(existingDevice);
-        if (isNewDevice)
-            aKid.setDevice(this);
-        else
-            kids.add(aKid);
-    }
-
     public void removeKid(Child aKid) {
         if (!this.equals(aKid.getDevice()))
             kids.remove(aKid);

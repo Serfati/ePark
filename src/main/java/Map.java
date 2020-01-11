@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Map {
     private final String name;
-    private double longitude;
-    private double latitude;
+    private final double longitude;
+    private final double latitude;
 
     public Map(String name) {
         Random rd = new Random();

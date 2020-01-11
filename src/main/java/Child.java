@@ -68,14 +68,6 @@ public class Child {
         return device;
     }
 
-    public void setDevice(Device aDevice) {
-        if (aDevice == null) return;
-        Device existingDevice = device;
-        device = aDevice;
-        if (existingDevice != null && !existingDevice.equals(aDevice)) existingDevice.removeKid(this);
-        device.addKid(this);
-    }
-
     public Guardian getGuardian() {
         return guardian;
     }

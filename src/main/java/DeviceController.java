@@ -60,28 +60,28 @@ public class DeviceController {
         parkDevices.stream().filter(parkDevice -> parkDevice.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight())).map(parkDevice -> parkDevice.getName()+" - press: "+parkDevice.getID()).forEach(System.out::println);
         System.out.println(CLI.B+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"+CLI.R);
         System.out.println("press 0 to return ");
-        Scanner keyboard = new Scanner(System.in);
-        List<Device> devicesToAdd = new ArrayList<>();
+        Scanner in = new Scanner(System.in);
+        List<Device> toAdd = new ArrayList<>();
         do try {
-            int deviceId = keyboard.nextInt();
-            if (deviceId == 0) break;
+            int dID = in.nextInt();
+            if (dID == 0) break;
             else {
                 List<Device> collect = new ArrayList<>();
                 for(Device e : parkDevices)
-                    if (e.getID() == deviceId && e.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight()))
+                    if (e.getID() == dID && e.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight()))
                         collect.add(e);
                 if (collect.size() > 0) {
-                    devicesToAdd.addAll(collect);
-                    System.out.println(deviceId+" added.");
+                    toAdd.addAll(collect);
+                    System.out.println(dID+" added.");
                     break;
                 } else
                     throw new Exception();
             }
         } catch(Exception e) {
-            System.out.println("please enter valid number");
-            keyboard.nextLine();
+            System.out.println(CLI.ANSI_RED+"\ninvalid choice, try again!\n"+CLI.R);
+            in.nextLine();
         }
         while(true);
-        return devicesToAdd;
+        return toAdd;
     }
 }
