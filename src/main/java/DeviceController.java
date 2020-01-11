@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DeviceController {
-    public static List<Device> parkDevices = new ArrayList<>();
+    public static final List<Device> parkDevices = new ArrayList<>();
 
     static void extreme_device(eTicket eTick, Device device) {
         System.out.println(device.getName()+" is EXTREME! are you sure? press [Y/n]");

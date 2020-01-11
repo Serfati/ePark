@@ -2,9 +2,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class PayPal {
-    public static HashMap<String, PayPal> companies = new HashMap<>();
+    public static final HashMap<String, PayPal> companies = new HashMap<>();
     final String credit_company; //VISA or AMEX or MASTERCARD
-    private LinkedList<Account> accounts; //list of all credit accounts of this. company
+    private final LinkedList<Account> accounts; //list of all credit accounts of this. company
 
     public PayPal(String name) {
         this.credit_company = name;

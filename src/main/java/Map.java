@@ -3,7 +3,7 @@ import javafx.util.Pair;
 import java.util.Random;
 
 public class Map {
-    private String name;
+    private final String name;
     private double longitude;
     private double latitude;
 

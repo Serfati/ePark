@@ -2,8 +2,8 @@ import java.util.HashSet;
 
 public class Guardian {
     private Account account;
-    int ID;
-    String name;
+    final int ID;
+    final String name;
     private AppUser appUser;
 
     public Guardian(int gID, String gName) {

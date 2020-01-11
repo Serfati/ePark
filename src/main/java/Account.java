@@ -3,7 +3,7 @@ public class Account {
     private int balance;
     private PayPal creditCompany;
     private Guardian guardian;
-    int creditCard;
+    final int creditCard;
 
     public Account(int aBalance, int aCreditCard, PayPal aCreditCompany, Guardian aGuardian) {
         balance = Math.max(aBalance, 100);
