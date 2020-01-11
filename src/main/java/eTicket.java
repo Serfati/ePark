@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class eTicket {
-    private final LocalDateTime expireDate;
+    private LocalDateTime expireDate;
     private final List<Entry> entries;
     private Child kid;
 
@@ -18,6 +18,10 @@ public class eTicket {
 
     public LocalDateTime getExpireDate() {
         return expireDate;
+    }
+
+    public void setExpireDate(LocalDateTime expireDate) {
+        this.expireDate = expireDate;
     }
 
     public List<Entry> getEntries() {

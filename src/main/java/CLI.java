@@ -139,8 +139,9 @@ public class CLI {
         System.out.println("["+B+"5"+R+"] "+B+"Return to My Family"+R);
         System.out.println("["+B+"6"+R+"] Show Entries");
         System.out.println("["+B+"7"+R+"] Show Distance between me and my kid");
+        System.out.println("["+B+"8"+R+"] Add Hours to kid");
         System.out.println(B+"--------------------------------------------------------");
-        System.out.println("Please select an option from 1-7"+R);
+        System.out.println("Please select an option from 1-8"+R);
         try {
             return new Scanner(System.in).nextInt();
         } catch(Exception ignored) {

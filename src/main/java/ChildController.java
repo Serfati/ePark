@@ -23,7 +23,7 @@ public class ChildController {
         }
         Child newKid = new Child(kID, kidName, Integer.parseInt(kidAge), guardian);
         LocalDateTime today = LocalDateTime.now();
-        eTicket newKideTicket = new eTicket(today.plusDays(3), newKid);
+        eTicket newKideTicket = new eTicket(today.plusHours(7), newKid);
         kID++;
         eBracelet newKideband = !eBracelet.usedBracelet.isEmpty() ? eBracelet.usedBracelet.remove(0) : new eBracelet();
         newKideband.setKid(newKid);
@@ -31,7 +31,6 @@ public class ChildController {
         newKid.seteTicket(newKideTicket);
         newKideTicket.setKid(newKid);
         System.out.println(newKid.getName()+" added to your kids\n");
-        //Last Step - Measuring
 
         System.out.println(CLI.B+CLI.ANSI_BLUE+"Please measure your kid"+CLI.R);
         System.out.println(CLI.B+"-------------------------------------------"+CLI.R);

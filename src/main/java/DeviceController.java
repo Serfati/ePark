@@ -54,7 +54,7 @@ public class DeviceController {
         Main.systemObjects.add(haunted_ghosts_house);
     }
 
-    List<Device> chooseDevicesToAddMenu(Child currentKid) {
+    List<Device> deviceToAddPage(Child currentKid) {
         System.out.println(CLI.B+CLI.ANSI_BLUE+"All devices price is "+CLI.ANSI_CYAN+"3$"+CLI.R+"\n");
         System.out.println(CLI.B+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="+CLI.R);
         parkDevices.stream().filter(parkDevice -> parkDevice.validDeviceForKid(currentKid.getAge(), currentKid.getHeight(), currentKid.getWeight())).map(parkDevice -> parkDevice.getName()+" - press: "+parkDevice.getID()).forEach(System.out::println);

@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +33,7 @@ public class GuardianController {
     void addEntry(Child kidID, AppUser appUser, eTicket eTick) {
         final DeviceController parkController = new DeviceController();
         System.out.println(CLI.B+CLI.ANSI_BLUE+"Balance: "+appUser.getGuardian().getAccount().getBalance()+CLI.R+"$\n");
-        List<Device> devicesToAdd = parkController.chooseDevicesToAddMenu(kidID);
+        List<Device> devicesToAdd = parkController.deviceToAddPage(kidID);
         List<Entry> entriesAdded = new ArrayList<>();
         int numOfEnt = 0;
         int i = 0, devicesToAddSize = devicesToAdd.size();
@@ -74,5 +75,11 @@ public class GuardianController {
         Map child = new Map(curr.getName());
         Map father = new Map("you");
         father.distanceTo(child);
+    }
+
+    public void extendTimeOnPark(Child curr) {
+        System.out.print("how many hours to add?");
+        LocalDateTime newExpDate = curr.getETicket().getExpireDate().plusHours(Long.parseLong(new Scanner(System.in).next()));
+        curr.getETicket().setExpireDate(newExpDate);
     }
 }

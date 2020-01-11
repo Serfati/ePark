@@ -97,6 +97,9 @@ public class Main {
                 case 7:
                     gControl.calculateDistance(curr);
                     continue;
+                case 8:
+                    gControl.extendTimeOnPark(curr);
+                    continue;
                 default:
                     System.out.println(CLI.ANSI_RED+"\ninvalid choice"+CLI.R);
             }
