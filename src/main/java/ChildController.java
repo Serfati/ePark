@@ -51,6 +51,7 @@ public class ChildController {
         eBracelet.returnUsedBand(kid.getEBand());
         if (kid.getETicket().getEntries().size() * 3 > 0) if (PayPal.chargeCard(guardian.getAccount()))
             System.out.println(CLI.B+CLI.ANSI_BLUE+"total amount to charge "+kid.getETicket().getEntries().size() * 3+"$\nbalance: "+guardian.getAccount().getBalance()+CLI.R+"$");
+        for(Entry d : kid.getETicket().getEntries()) Main.systemObjects.remove(d);
         if (guardian.removeKid(kid)) {
             Main.systemObjects.remove(kid.getETicket());
             Main.systemObjects.remove(kid);

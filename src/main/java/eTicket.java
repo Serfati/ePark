@@ -1,6 +1,5 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class eTicket {
@@ -25,7 +24,7 @@ public class eTicket {
     }
 
     public List<Entry> getEntries() {
-        return Collections.unmodifiableList(entries);
+        return entries;
     }
 
     public void setKid(Child kid) {

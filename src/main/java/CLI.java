@@ -40,42 +40,45 @@ public class CLI {
         int gID = in.nextInt();
         System.out.print("\nfirst name: ");
         String gName = in.next();
-        System.out.println("enter your credit card number, We accept only:\n"+
-                "\t\tVisa                       starts with 4\n"+
-                "\t\tMastercard                 starts with 5\n"+
-                "\t\tBitCoin                    starts with 543\n"+
-                "\t\tAmerican Express           starts with 3");
-        String creditNumber = in.next();
-        System.out.println("Budget limit for credit card: (>10$)");
-        String limitCredit = in.next();
-        String creditCompany = null;
+        String creditNumber = "";
+        String limitCredit = "";
+        String creditCompany = "";
+        label:
         try {
+            System.out.println("enter your credit card number, We accept only:\n"+
+                    "\t\t     **      Visa                       starts with 4\n"+
+                    "\t\t     **      Mastercard                 starts with 5\n"+
+                    "\t\t     **      BitCoin                    starts with 543\n"+
+                    "\t\t     **      American Express           starts with 3");
+            creditNumber = in.next();
+            System.out.println("Budget limit for credit card: (>10$)");
+            limitCredit = in.next();
             int firstNumber = Integer.parseInt(String.valueOf(creditNumber.charAt(0)));
             int creditLimit = Integer.parseInt(limitCredit);
             if (!PayPal.validationAndBalanceCheck(creditNumber, creditLimit, firstNumber)) {
                 System.out.println(B+ANSI_RED+"\nERROR"+R);
-                return null;
+                break label;
             }
-            switch(firstNumber){
+            switch(firstNumber) {
                 case 3:
-                    if(!PayPal.companies.containsKey("American Express")){
-                        PayPal.companies.put("American Express",new PayPal("American Express"));
+                    if (!PayPal.companies.containsKey("American Express")) {
+                        creditCompany = "American Express";
+                        PayPal.companies.put("American Express", new PayPal("American Express"));
                         Main.systemObjects.add(PayPal.companies.get("American Express"));
-                        creditCompany="American Express";
                     }
                     break;
                 case 4:
-                    if(!PayPal.companies.containsKey("Visa")){
-                        PayPal.companies.put("Visa",new PayPal("Visa"));
+                    if (!PayPal.companies.containsKey("Visa")) {
+                        creditCompany = "Visa";
+                        PayPal.companies.put("Visa", new PayPal("Visa"));
                         Main.systemObjects.add(PayPal.companies.get("Visa"));
-                        creditCompany="Visa";
                     }
                     break;
                 case 5:
-                    if(!PayPal.companies.containsKey("Mastercard")){
-                        PayPal.companies.put("Mastercard",new PayPal("Mastercard"));
-                        Main.systemObjects.add(PayPal.companies.get("Mastercard"));
+                    if (!PayPal.companies.containsKey("Mastercard")) {
                         creditCompany = "Mastercard";
+                        PayPal.companies.put("Mastercard", new PayPal("Mastercard"));
+                        Main.systemObjects.add(PayPal.companies.get("Mastercard"));
                     }
                     break;
             }
@@ -85,6 +88,7 @@ public class CLI {
 
         System.out.println("signup succeeded!");
         Guardian newGuardian = new Guardian(gID, gName);
+
         Account newAccount = new Account(Integer.parseInt(limitCredit), Integer.parseInt(creditNumber), PayPal.companies.get(creditCompany), newGuardian);
         AppUser appUser = new AppUser(userName, password, newGuardian);
 
@@ -153,7 +157,7 @@ public class CLI {
         System.out.println(B+ANSI_BLUE+"Your Kids: "+R);
         appUser.getGuardian().getKids().forEach(e ->
                 System.out.println("name: "+e.getName()+" ,ID: "+e.getID()));
-        System.out.println("choose by ID or press 0 to return");
+        System.out.println("choose by ID ,press 0 to return");
         Scanner keyboard = new Scanner(System.in);
         while(true) try {
             int choice = keyboard.nextInt();
@@ -161,7 +165,7 @@ public class CLI {
                 return choice;
             else return 0;
         } catch(Exception e) {
-            System.out.println("please enter a valid ID");
+            System.out.println(ANSI_RED+"invalid choice."+R);
             keyboard.nextLine();
         }
     }

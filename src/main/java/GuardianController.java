@@ -5,32 +5,34 @@ import java.util.Scanner;
 
 public class GuardianController {
 
-    static List<Integer> removeEntry(eTicket eTick) {
+    static int removeEntry(eTicket eTick) {
+        int howMany = 0;
         List<Entry> entries = eTick.getEntries();
-        entries.stream().map(entry -> "Ticket for: "+entry.getDevice().getName()).forEach(System.out::println);
-        System.out.println("choose by id , press 0 to return");
-        Scanner keyboard = new Scanner(System.in);
-        boolean select = true;
-        List<Integer> toRemove = new ArrayList<>();
-        do try {
-            int dID = keyboard.nextInt();
-            if (dID != 0) {
-                if (eTick.getEntries().stream().noneMatch(e -> e.getDevice().getID() == dID))
-                    throw new Exception();
-                else {
-                    toRemove.add(dID);
-                    System.out.println(dID+"removed.");
-                }
-            } else select = false;
-        } catch(Exception e) {
-            System.out.println("invalid choice");
-            keyboard.nextLine();
+        for(int i = 0; i < entries.size(); i++) {
+            Entry entry = entries.get(i);
+            String s = i+" : "+entry.getDevice().getName();
+            System.out.println(s);
         }
-        while(select);
-        return toRemove;
+        System.out.println("choose by row number , press -1 to return");
+        Scanner in = new Scanner(System.in);
+        String dID = in.next();
+
+        if (Integer.parseInt(dID) == -1 || Integer.parseInt(dID) > entries.size()+2)
+            System.out.println("invalid choice");
+        else {
+            int ch = Integer.parseInt(dID);
+            entries.remove(ch);
+            howMany++;
+            System.out.println(" * "+Integer.parseInt(dID)+" has removed.");
+        }
+        return howMany;
     }
 
-    void addEntry(Child kidID, AppUser appUser, eTicket eTick) {
+    void removeEntry(AppUser appUser, eTicket eTick) {
+        appUser.getGuardian().getAccount().addToBalance(removeEntry(eTick) * 3);
+    }
+
+    void addEntry(Child kidID, AppUser appUser) {
         final DeviceController parkController = new DeviceController();
         System.out.println(CLI.B+CLI.ANSI_BLUE+"Balance: "+appUser.getGuardian().getAccount().getBalance()+CLI.R+"$\n");
         List<Device> devicesToAdd = parkController.deviceToAddPage(kidID);
@@ -40,35 +42,21 @@ public class GuardianController {
         while(i < devicesToAddSize) {
             Device device = devicesToAdd.get(i);
             if (!device.getIsExtreme()) {
-                Entry e = new Entry(device, eTick);
+                Entry e = new Entry(device, kidID.getETicket());
                 entriesAdded.add(e);
                 Main.systemObjects.add(e);
                 numOfEnt++;
-            } else DeviceController.extreme_device(eTick, device);
+            } else if (DeviceController.extreme_device(kidID.getETicket(), device)) numOfEnt++;
             i++;
         }
         if (appUser.getGuardian().getAccount().removeFromBalance(numOfEnt * 3)) {
             return;
         }
         entriesAdded.forEach(e -> {
-            eTick.removeEntry(e);
+            kidID.getETicket().removeEntry(e);
             Main.systemObjects.remove(e);
         });
         System.out.println("WARN! not enough money");
-    }
-
-    void removeEntry(Child kidID, AppUser appUser, eTicket eTick) {
-        List<Integer> devicesToDelete = removeEntry(eTick);
-        int removedEntries = 0;
-        for(Integer integer : devicesToDelete) {
-            Entry e = eTick.getEntryByID(kidID, integer);
-            if (e != null) {
-                kidID.getETicket().removeEntry(e);
-                Main.systemObjects.remove(e);
-                removedEntries++;
-            }
-        }
-        appUser.getGuardian().getAccount().addToBalance(removedEntries * 10);
     }
 
     public void calculateDistance(Child curr) {

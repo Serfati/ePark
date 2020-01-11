@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class DeviceController {
     public static final List<Device> parkDevices = new ArrayList<>();
 
-    static void extreme_device(eTicket eTick, Device device) {
+    static boolean extreme_device(eTicket eTick, Device device) {
         System.out.println(device.getName()+" is EXTREME! are you sure? press [Y/n]");
         Scanner keyboard = new Scanner(System.in);
+        boolean added = false;
         boolean selected = false;
         do try {
             String choice = keyboard.next();
@@ -15,12 +16,14 @@ public class DeviceController {
                 Entry e = new Entry(device, eTick);
                 Main.systemObjects.add(e);
                 selected = true;
+                added = true;
             } else if (choice.equals("n")) selected = true;
         } catch(Exception e) {
             System.out.println("invalid choice");
             keyboard.nextLine();
         }
         while(!selected);
+        return added;
     }
 
     static void initDevices() {

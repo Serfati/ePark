@@ -77,10 +77,12 @@ public class Main {
                     System.out.println("exp date: "+CLI.B+CLI.ANSI_RED+eTick.getExpireDate()+CLI.R+"\n");
                     continue;
                 case 2:
-                    gControl.addEntry(curr, appUser, eTick);
+                    gControl.addEntry(curr, appUser);
                     continue;
                 case 3:
-                    gControl.removeEntry(curr, appUser, eTick);
+                    System.out.println("=-=-=-=-= Tickets =-=-=-=-=");
+                    gControl.removeEntry(appUser, eTick);
+                    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=");
                     continue;
                 case 4:
                     cControl.removeKid(curr, appUser.getGuardian());
