@@ -12,6 +12,14 @@ public class Account {
         guardian = aGuardian;
     }
 
+    public Account(int aCreditCard, PayPal aCreditCompany, Guardian aGuardian) {
+        balance = 100;
+        setCreditCompany(aCreditCompany);
+        if (aGuardian == null || aGuardian.getAccount() != null)
+            throw new RuntimeException();
+        guardian = aGuardian;
+    }
+
     public void addToBalance(int amount) {
         this.balance += amount;
     }
@@ -45,5 +53,9 @@ public class Account {
     public void removeFromBalance(int amount) {
         if (amount <= balance)
             balance = -amount;
+    }
+
+    public Guardian getGuardian() {
+        return guardian;
     }
 }

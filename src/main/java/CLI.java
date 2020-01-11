@@ -50,7 +50,7 @@ public class CLI {
         String creditNumber = keyBoard.next();
         System.out.println("Budget limit for credit card: (>10$)");
         String limitCredit = keyBoard.next();
-
+        String creditCompany=null;
         try {
             //double creditNum = Double.parseDouble(creditNumber);
             int firstNumber = Integer.parseInt(String.valueOf(creditNumber.charAt(0)));
@@ -59,12 +59,39 @@ public class CLI {
                 System.out.println(B+ANSI_RED+"\nERROR"+R);
                 return null;
             }
+            switch(firstNumber){
+                case 3:
+                    if(!PayPal.companies.containsKey("American Express")){
+                        PayPal.companies.put("American Express",new PayPal("American Express"));
+                        Main.systemObjects.add(PayPal.companies.get("American Express"));
+                        creditCompany="American Express";
+                    }
+                    break;
+                case 4:
+                    if(!PayPal.companies.containsKey("Visa")){
+                        PayPal.companies.put("Visa",new PayPal("Visa"));
+                        Main.systemObjects.add(PayPal.companies.get("Visa"));
+                        creditCompany="Visa";
+                    }
+                    break;
+                case 5:
+                    if(!PayPal.companies.containsKey("Mastercard")){
+                        PayPal.companies.put("Mastercard",new PayPal("Mastercard"));
+                        Main.systemObjects.add(PayPal.companies.get("Mastercard"));
+                        creditCompany="Mastercard";
+                    }
+                    break;
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
         System.out.println("signup succeeded!");
         Guardian newGuardian = new Guardian(gID, gName, Integer.parseInt(creditNumber));
+        Account newAccount=new Account(Integer.parseInt(creditNumber),PayPal.companies.get(creditCompany),newGuardian);
         AppUser newWebUser = new AppUser(userName, password, newGuardian);
+        newGuardian.setWebUser(newWebUser);
+        newGuardian.setAccount(newAccount);
+        Main.systemObjects.add(newAccount);
         Main.systemObjects.add(newWebUser);
         Main.systemObjects.add(newGuardian);
         Main.webUsers.add(newWebUser);

@@ -3,9 +3,21 @@ import java.util.HashSet;
 public class Guardian {
     private Account account;
     private AppUser webUser;
+    private int ID;
+    private String Name;
 
     public Guardian(int aID, String aName, int aCreditCard) {
         ChildController.kids = new HashSet<>();
+        this.ID=ID;
+        this.Name=Name;
+    }
+
+    public int getID(){
+        return this.ID;
+    }
+
+    public String Name(){
+        return this.Name;
     }
 
     public void addKid(Child aKid) {
@@ -32,6 +44,14 @@ public class Guardian {
         webUser = null;
         if (existingWebUser != null) existingWebUser.delete();
         ChildController.kids.removeIf(child -> child.getGuardian() == this);
+    }
+
+    public void setWebUser(AppUser webUser){
+        this.webUser=webUser;
+    }
+
+    public void setAccount(Account account){
+        this.account=account;
     }
 
     public Account getAccount() {

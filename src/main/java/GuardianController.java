@@ -10,7 +10,7 @@ public class GuardianController {
 
     void showEntries(eTicket eTick) {
         List<Entry> entries = eTick.getEntries();
-        entries.stream().map(entry -> "Ticket for: "+entry.getDevice()).forEach(System.out::println);
+        entries.stream().map(entry -> "Ticket for: "+entry.getDevice().getName()).forEach(System.out::println);
     }
 
     void addEntries(Child kidID, AppUser webUser, eTicket eTick) {

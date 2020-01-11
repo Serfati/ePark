@@ -1,11 +1,19 @@
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PayPal {
     private final String credit_company; // VISA or AMEX or MASTERCARD
     private List<Account> accounts; // list of all credit accounts of this. company
+    public static HashMap<String,PayPal> companies=new HashMap<>();
 
     public PayPal(String name) {
         this.credit_company = name;
+        accounts=new LinkedList<>();
+    }
+
+    public String getCredit_companyName() {
+        return credit_company;
     }
 
     public static boolean chargeCard() {
