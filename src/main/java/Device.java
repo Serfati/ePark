@@ -5,8 +5,8 @@ public class Device {
     private final int ID;
     private final String name;
     private final boolean isExtreme;
-    private final boolean isAvilable;
-    private final boolean isBroken;
+    final boolean isAvailable;
+    final boolean isBroken;
     private final int minHeight;
     private final int minWeight;
     private final int minAge;
@@ -15,7 +15,7 @@ public class Device {
     public Device(int aID, String aName, boolean aIsOpen, boolean aIsInUse, boolean aIsExtreme, int aMinHeight, int aMinWeight, int aMinAge) {
         ID = aID;
         name = aName;
-        isAvilable = aIsOpen;
+        isAvailable = aIsOpen;
         isBroken = aIsInUse;
         isExtreme = aIsExtreme;
         minHeight = aMinHeight;

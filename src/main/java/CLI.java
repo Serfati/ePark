@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,19 +5,18 @@ public class CLI {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
     public static final String B = "\u001B[0;1m";
     public static final String R = "\u001B[0m";
     public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
 
     static AppUser loginPage() {
-        Scanner keyBoard = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         System.out.print("username: ");
-        String userName = keyBoard.nextLine();
+        String userName = in.nextLine();
         System.out.print("\npassword: ");
-        String password = keyBoard.nextLine();
-        AppUser webUser = Main.webUsers.stream().filter(au -> au.getUserName().equals(userName)).findFirst().filter(au -> au.getPassword().equals(password)).orElse(null);
-        if (webUser != null) return webUser;
+        String password = in.nextLine();
+        AppUser appUser = Main.appUsers.stream().filter(au -> au.getUserName().equals(userName)).findFirst().filter(au -> au.getPassword().equals(password)).orElse(null);
+        if (appUser != null) return appUser;
         else {
             System.out.println(ANSI_RED+"\nusername or password are incorrect.\n\n"+R);
             return null;
@@ -30,9 +27,9 @@ public class CLI {
         System.out.println(B+"\n\n-----------------------------------");
         System.out.println("Sign up page");
         System.out.println("-----------------------------------"+R);
-        Scanner keyBoard = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         System.out.print("username: ");
-        String userName = keyBoard.next();
+        String userName = in.next();
         Random rand = new Random();
         String password = String.format("%04d", rand.nextInt(1000));
         System.out.println("password generated: "+B+ANSI_BLUE+password+R+" keep it");
@@ -40,22 +37,22 @@ public class CLI {
         System.out.println(B+"Personal Details");
         System.out.println("-----------------------------------"+R);
         System.out.print("id: ");
-        int gID = keyBoard.nextInt();
+        int gID = in.nextInt();
         System.out.print("\nfirst name: ");
-        String gName = keyBoard.next();
-        System.out.println(" enter your credit card number, We accept only:\n"+
-                "Visa, starts with 4\n"+
-                "Mastercard, starts with 5\n"+
-                "American Express, starts with 3");
-        String creditNumber = keyBoard.next();
+        String gName = in.next();
+        System.out.println("enter your credit card number, We accept only:\n"+
+                "\t\tVisa                       starts with 4\n"+
+                "\t\tMastercard                 starts with 5\n"+
+                "\t\tBitCoin                    starts with 543\n"+
+                "\t\tAmerican Express           starts with 3");
+        String creditNumber = in.next();
         System.out.println("Budget limit for credit card: (>10$)");
-        String limitCredit = keyBoard.next();
-        String creditCompany=null;
+        String limitCredit = in.next();
+        String creditCompany = null;
         try {
-            //double creditNum = Double.parseDouble(creditNumber);
             int firstNumber = Integer.parseInt(String.valueOf(creditNumber.charAt(0)));
             int creditLimit = Integer.parseInt(limitCredit);
-            if (firstNumber < 3 || firstNumber > 5 || creditLimit < 10) {
+            if (!PayPal.validationAndBalanceCheck(creditNumber, creditLimit, firstNumber)) {
                 System.out.println(B+ANSI_RED+"\nERROR"+R);
                 return null;
             }
@@ -78,120 +75,93 @@ public class CLI {
                     if(!PayPal.companies.containsKey("Mastercard")){
                         PayPal.companies.put("Mastercard",new PayPal("Mastercard"));
                         Main.systemObjects.add(PayPal.companies.get("Mastercard"));
-                        creditCompany="Mastercard";
+                        creditCompany = "Mastercard";
                     }
                     break;
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
+
         System.out.println("signup succeeded!");
-        Guardian newGuardian = new Guardian(gID, gName, Integer.parseInt(creditNumber));
-        Account newAccount=new Account(Integer.parseInt(creditNumber),PayPal.companies.get(creditCompany),newGuardian);
-        AppUser newWebUser = new AppUser(userName, password, newGuardian);
-        newGuardian.setWebUser(newWebUser);
+        Guardian newGuardian = new Guardian(gID, gName);
+        Account newAccount = new Account(Integer.parseInt(limitCredit), Integer.parseInt(creditNumber), PayPal.companies.get(creditCompany), newGuardian);
+        AppUser appUser = new AppUser(userName, password, newGuardian);
+
+        newGuardian.setAppUser(appUser);
         newGuardian.setAccount(newAccount);
+
         Main.systemObjects.add(newAccount);
-        Main.systemObjects.add(newWebUser);
+        Main.systemObjects.add(appUser);
         Main.systemObjects.add(newGuardian);
-        Main.webUsers.add(newWebUser);
-        return newWebUser;
+        Main.appUsers.add(appUser);
+        return appUser;
     }
 
     int startUpMenu() {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println(B+ANSI_WHITE+ANSI_YELLOW_BACKGROUND+"Welcome to ePark!"+R);
+        System.out.println(B+ANSI_YELLOW_BACKGROUND+"Welcome to ePark!"+R);
         System.out.println(B+"========================================================"+R);
         System.out.println("["+B+"1"+R+"] Login");
         System.out.println("["+B+"2"+R+"] Sign Up");
         System.out.println("["+B+"3"+R+"] Exit");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-3"+R);
-        int option;
         try {
-            option = keyboard.nextInt();
-        } catch(Exception e) {
-            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
-            return -1;
+            return new Scanner(System.in).nextInt();
+        } catch(Exception ignored) {
         }
-        return option;
+        return -1;
     }
 
-    int myFamilyMenu() {
-        Scanner keyboard = new Scanner(System.in);
+    int myFamilyPage() {
         System.out.println(B+"\n\n~ My Family "+R);
         System.out.println("========================================================");
         System.out.println("["+B+"1"+R+"] Add kid");
         System.out.println("["+B+"2"+R+"] Show my kids");
-        System.out.println("["+B+"3"+R+"] Manage specific kid");
-        System.out.println("["+B+"4"+R+"] Exit");
+        System.out.println("["+B+"3"+R+"] Control a kid");
+        System.out.println("["+B+"4"+R+"] Logout");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-4"+R);
-        int option;
         try {
-            option = keyboard.nextInt();
-        } catch(Exception e) {
-            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
-            return -1;
+            return new Scanner(System.in).nextInt();
+        } catch(Exception ignored) {
         }
-        return option;
+        return -1;
     }
 
-    int eTicketMenu() {
-        Scanner keyboard = new Scanner(System.in);
+    int controlPage() {
         System.out.println(B+"Manage eTicket"+R);
         System.out.println("========================================================");
-        System.out.println("["+B+"1"+R+"] Show eTicket details");
-        System.out.println("["+B+"2"+R+"] Add Entries");
-        System.out.println("["+B+"3"+R+"] Remove Entries");
-        System.out.println("["+B+"4"+R+"] Remove child from the park");
-        System.out.println("["+B+"5"+R+"] Take me back to main menu");
-        System.out.println("["+B+"6"+R+"] Show eTicket entries");
-        System.out.println("["+B+"7"+R+"] Show distance between me and my kid");
+        System.out.println("["+B+"1"+R+"] Show Exp Date");
+        System.out.println("["+B+"2"+R+"] Add Entry");
+        System.out.println("["+B+"3"+R+"] Remove Entry");
+        System.out.println("["+B+"4"+R+"] Take Kid Home");
+        System.out.println("["+B+"5"+R+"] "+B+"Return to My Family"+R);
+        System.out.println("["+B+"6"+R+"] Show Entries");
+        System.out.println("["+B+"7"+R+"] Show Distance between me and my kid");
         System.out.println(B+"--------------------------------------------------------");
         System.out.println("Please select an option from 1-7"+R);
-        int option;
         try {
-            option = keyboard.nextInt();
-        } catch(Exception e) {
-            System.out.println(B+ANSI_RED+"\nInvalid choice"+R);
-            return -1;
+            return new Scanner(System.in).nextInt();
+        } catch(Exception ignored) {
         }
-        return option;
+        return -1;
     }
 
-    int chooseKidMenu(AppUser webUser) {
+    int chooseKidMenu(AppUser appUser) {
         System.out.println(B+ANSI_BLUE+"Your Kids: "+R);
-        webUser.getGuardian().getKids().forEach(e ->
+        appUser.getGuardian().getKids().forEach(e ->
                 System.out.println("name: "+e.getName()+" ,ID: "+e.getID()));
-        System.out.println("choose by ID");
+        System.out.println("choose by ID or press 0 to return");
         Scanner keyboard = new Scanner(System.in);
         while(true) try {
             int choice = keyboard.nextInt();
-            if (webUser.getGuardian().getKids().stream().anyMatch(e -> e.getID() == choice)) return choice;
+            if (appUser.getGuardian().getKids().stream().anyMatch(e -> e.getID() == choice))
+                return choice;
+            else return 0;
         } catch(Exception e) {
-            System.out.println("please enter valid ID from the shown list");
+            System.out.println("please enter a valid ID");
             keyboard.nextLine();
         }
-    }
-
-    List<Integer> chooseDevicesMenu(eTicket eTick) {
-        System.out.println("Please choose the entries you would like to delete, you can choose -1 at any point to exit this menu");
-        Scanner keyboard = new Scanner(System.in);
-        boolean stillSelecting = true;
-        List<Integer> devicesToRemove = new ArrayList<>();
-        while(stillSelecting) try {
-            int deviceId = keyboard.nextInt();
-            if (deviceId != -1) if (eTick.getEntries().stream().anyMatch(e -> e.getDevice().getID() == deviceId)) {
-                devicesToRemove.add(deviceId);
-                System.out.println("Added device "+deviceId+" to the list of devices to remove");
-            } else
-                throw new Exception();
-            else stillSelecting = false;
-        } catch(Exception e) {
-            System.out.println("enter a valid number");
-            keyboard.nextLine();
-        }
-        return devicesToRemove;
     }
 }

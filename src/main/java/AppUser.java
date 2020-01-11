@@ -6,7 +6,7 @@ public class AppUser {
     public AppUser(String aUserName, String aPassword, Guardian aGuardian) {
         userName = aUserName;
         password = aPassword;
-        if (aGuardian == null || aGuardian.getWebUser() != null) throw new RuntimeException();
+        if (aGuardian == null || aGuardian.getAppUser() != null) throw new RuntimeException();
         guardian = aGuardian;
     }
 

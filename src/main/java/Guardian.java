@@ -2,22 +2,14 @@ import java.util.HashSet;
 
 public class Guardian {
     private Account account;
-    private AppUser webUser;
-    private int ID;
-    private String Name;
+    int ID;
+    String name;
+    private AppUser appUser;
 
-    public Guardian(int aID, String aName, int aCreditCard) {
+    public Guardian(int gID, String gName) {
         ChildController.kids = new HashSet<>();
-        this.ID=ID;
-        this.Name=Name;
-    }
-
-    public int getID(){
-        return this.ID;
-    }
-
-    public String Name(){
-        return this.Name;
+        ID = gID;
+        name = gName;
     }
 
     public void addKid(Child aKid) {
@@ -40,26 +32,26 @@ public class Guardian {
         Account existingAccount = account;
         account = null;
         if (existingAccount != null) existingAccount.delete();
-        AppUser existingWebUser = webUser;
-        webUser = null;
-        if (existingWebUser != null) existingWebUser.delete();
+        AppUser exist = appUser;
+        appUser = null;
+        if (exist != null) exist.delete();
         ChildController.kids.removeIf(child -> child.getGuardian() == this);
     }
 
-    public void setWebUser(AppUser webUser){
-        this.webUser=webUser;
+    public AppUser getAppUser() {
+        return appUser;
     }
 
-    public void setAccount(Account account){
-        this.account=account;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Account getAccount() {
         return account;
     }
 
-    public AppUser getWebUser() {
-        return webUser;
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public HashSet<Child> getKids() {

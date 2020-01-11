@@ -3,33 +3,15 @@ public class Account {
     private int balance;
     private PayPal creditCompany;
     private Guardian guardian;
+    int creditCard;
 
-    public Account(int aCreditCard, int aBalance, PayPal aCreditCompany, Guardian aGuardian) {
-        balance = aBalance;
+    public Account(int aBalance, int aCreditCard, PayPal aCreditCompany, Guardian aGuardian) {
+        balance = Math.max(aBalance, 100);
         setCreditCompany(aCreditCompany);
+        creditCard = aCreditCard;
         if (aGuardian == null || aGuardian.getAccount() != null)
             throw new RuntimeException();
         guardian = aGuardian;
-    }
-
-    public Account(int aCreditCard, PayPal aCreditCompany, Guardian aGuardian) {
-        balance = 100;
-        setCreditCompany(aCreditCompany);
-        if (aGuardian == null || aGuardian.getAccount() != null)
-            throw new RuntimeException();
-        guardian = aGuardian;
-    }
-
-    public void addToBalance(int amount) {
-        this.balance += amount;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public PayPal getCreditCompany() {
-        return creditCompany;
     }
 
     public void setCreditCompany(PayPal aCreditCompany) {
@@ -50,12 +32,23 @@ public class Account {
         if (existingGuardian != null) existingGuardian.delete();
     }
 
-    public void removeFromBalance(int amount) {
-        if (amount <= balance)
-            balance = -amount;
+    public boolean removeFromBalance(int amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;
     }
 
-    public Guardian getGuardian() {
-        return guardian;
+    public void addToBalance(int amount) {
+        this.balance += amount;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public PayPal getCreditCompany() {
+        return creditCompany;
     }
 }

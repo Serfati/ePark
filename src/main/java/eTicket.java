@@ -1,14 +1,14 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class eTicket {
-    private final Date expireDate;
+    private final LocalDateTime expireDate;
     private final List<Entry> entries;
     private Child kid;
 
-    public eTicket(Date aExpireDate, Child aKid) {
+    public eTicket(LocalDateTime aExpireDate, Child aKid) {
         expireDate = aExpireDate;
         entries = new ArrayList<>();
         if (aKid == null || aKid.getETicket() != null)
@@ -16,7 +16,7 @@ public class eTicket {
         kid = aKid;
     }
 
-    public Date getExpireDate() {
+    public LocalDateTime getExpireDate() {
         return expireDate;
     }
 
@@ -42,10 +42,7 @@ public class eTicket {
     }
 
     public Entry getEntryByID(Child kid, Integer entryID) {
-        for(Entry entry : kid.getETicket().getEntries())
-            if (entry.getDevice().getID() == entryID)
-                return entry;
-        return null;
+        return kid.getETicket().getEntries().stream().filter(entry -> entry.getDevice().getID() == entryID).findFirst().orElse(null);
     }
 
     public void delete() {

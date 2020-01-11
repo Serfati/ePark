@@ -28,7 +28,6 @@ public class Child {
         weight = aWeight;
     }
 
-
     public void seteTicket(eTicket eTicket) {
         this.eTicket = eTicket;
     }

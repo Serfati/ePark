@@ -7,9 +7,7 @@ import java.util.Random;
 public class eBracelet {
     private Child kid;
     private Map Location;
-
-    static final List<eBracelet> existingBands = new ArrayList<>();
-
+    static final List<eBracelet> usedBracelet = new ArrayList<>();
 
     public static Pair<Integer, Integer> getMeasurementsFromMeasureDevice() {
         Random r = new Random();
@@ -19,7 +17,7 @@ public class eBracelet {
     }
 
     public static void returnUsedBand(eBracelet eBand) {
-        if (eBand != null) existingBands.add(eBand);
+        if (eBand != null) usedBracelet.add(eBand);
     }
 
     public Child getKid() {
